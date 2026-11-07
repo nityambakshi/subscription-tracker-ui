@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Subsy design tokens (Tailwind v4)
+   Imported from src/index.css after tailwindcss.
+
+   - Components use semantic classes only (bg-surface, text-fg-muted, border-border).
+   - Raw values live in the CSS variables on :root.
+   - Light is the default. Dark follows the OS, or <html data-theme="dark">.
+   - <html data-theme="light"> forces light even when the OS is dark.
+   ========================================================================== */
+
+/* ---------- 1. Theme-aware variables ---------- */
+
+:root {
+  color-scheme: light;
+
+  --canvas:        #f6f6f7;
+  --surface:       #ffffff;
+  --surface-2:     #f2f2f4;
+  --border:        #e7e7ea;
+  --fg:            #111113;
+  --fg-muted:      #71717a;
+  --accent:        #4f46e5;
+  --accent-soft:   #eef2ff;
+  --inverse:       #111113;
+  --inverse-fg:    #f6f6f7;
+  --success:       #15803d;
+  --success-soft:  #dcfce7;
+  --warning:       #b45309;
+  --warning-soft:  #fef3c7;
+  --danger:        #dc2626;
+  --danger-soft:   #fee2e2;
+  --ring:          #4f46e5;
+  --card-shadow:   0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.03);
+}
+  
+/* Dark: follows the OS unless the app forces light */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --canvas:        #09090b;
+    --surface:       #141417;
+    --surface-2:     #1c1c21;
+    --border:        #26262c;
+    --fg:            #f4f4f5;
+    --fg-muted:      #8e8e96;
+    --accent:        #818cf8;
+    --accent-soft:   #1e1b4b;
+    --inverse:       #f4f4f5;
+    --inverse-fg:    #09090b;
+    --success:       #4ade80;
+    --success-soft:  #0f2e1a;
+    --warning:       #fbbf24;
+    --warning-soft:  #3a2a08;
+    --danger:        #f87171;
+    --danger-soft:   #3b1212;
+    --ring:          #818cf8;
+    --card-shadow:   none;
+  }
+}
+
+/* Explicit dark (for a user toggle in Settings) */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --canvas:        #09090b;
+  --surface:       #141417;
+  --surface-2:     #1c1c21;
+  --border:        #26262c;
+  --fg:            #f4f4f5;
+  --fg-muted:      #8e8e96;
+  --accent:        #818cf8;
+  --accent-soft:   #1e1b4b;
+  --inverse:       #f4f4f5;
+  --inverse-fg:    #09090b;
+  --success:       #4ade80;
+  --success-soft:  #0f2e1a;
+  --warning:       #fbbf24;
+  --warning-soft:  #3a2a08;
+  --danger:        #f87171;
+  --danger-soft:   #3b1212;
+  --ring:          #818cf8;
+  --card-shadow:   none;
+}
+
+/* ---------- 2. Tailwind theme (inline: utilities read the variables live) ---------- */
+
+@theme inline {
+  /* Colours: semantic */
+  --color-canvas:       var(--canvas);
+  --color-surface:      var(--surface);
+  --color-surface-2:    var(--surface-2);
+  --color-border:       var(--border);
+  --color-fg:           var(--fg);
+  --color-fg-muted:     var(--fg-muted);
+  --color-accent:       var(--accent);
+  --color-accent-soft:  var(--accent-soft);
+  --color-inverse:      var(--inverse);
+  --color-inverse-fg:   var(--inverse-fg);
+  --color-success:      var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning:      var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger:       var(--danger);
+  --color-danger-soft:  var(--danger-soft);
+  --color-ring:         var(--ring);
+
+  /* Colours: fixed (same in every theme) */
+  --color-brand:        #6366f1;
+  --color-brand-end:    #a855f7;
+  --color-chart-1:      #6366f1;
+  --color-chart-2:      #22c55e;
+  --color-chart-3:      #f59e0b;
+  --color-chart-4:      #ec4899;
+  --color-chart-5:      #0ea5e9;
+
+  /* Typography */
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --text-micro:      10px;
+  --text-caption:    11px;
+  --text-small:      12px;
+  --text-label:      13px;
+  --text-body:       14px;
+  --text-date:       15px;
+  --text-title:      16px;
+  --text-title-plus: 17px;
+  --text-heading:    24px;
+  --text-stat:       22px;
+
+  --text-micro--line-height:   14px;
+  --text-caption--line-height: 16px;
+  --text-small--line-height:   16px;
+  --text-label--line-height:   18px;
+  --text-body--line-height:    20px;
+  --text-date--line-height:    20px;
+  --text-title--line-height:   24px;
+  --text-heading--line-height: 30px;
+  --text-stat--line-height:    28px;
+
+  --tracking-heading: -0.02em;
+  --tracking-stat:    -0.01em;
+
+  /* Radius */
+  --radius-sm:   8px;
+  --radius-md:   10px;
+  --radius-lg:   12px;
+  --radius-xl:   14px;
+  --radius-full: 999px;
+
+  /* Shadow */
+  --shadow-card: var(--card-shadow);
+
+  /* Layout sizes */
+  --container-sidebar: 232px;
+  --container-panel:   340px;
+  --container-page:    1440px;
+
+  /* Breakpoints */
+  --breakpoint-tablet:  860px;
+  --breakpoint-desktop: 1280px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
