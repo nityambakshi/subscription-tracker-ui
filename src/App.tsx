@@ -1,11 +1,14 @@
-import Sidebar from "./components/Sidebar"
+import Sidebar from "@/components/layout/Sidebar"
+import { RightPanel } from "@/components/layout/RightPanel";
 
 function App() {
   return (
     <main className="flex">
       <Sidebar />
-      <section className="w-1/2">hellow</section>
-      <section></section>
+      <section className="flex-1">hellow</section>
+      <RightPanel>
+        
+      </RightPanel>
     </main>
   )
 }
