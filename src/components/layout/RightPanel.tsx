@@ -1,12 +1,21 @@
+import { subscriptionTableRows } from '@/constants/subscription-table.mock';
+import { DonutChart } from '../charts/DonutChart';
 import { SectionHeader } from '../ui/SectionHeader';
 import { Panel } from './Panel';
+import { categorySlices } from '@/util/categorySlices';
 
 export function RightPanel() {
+  const slices = categorySlices(subscriptionTableRows);
+  console.log("SLICES -------------------- ", slices)
   return (
     <Panel side="right" size="panel">
       <section className="flex flex-col gap-3.5">
         <SectionHeader title="Where it goes" meta="By category" />
         {/* <DonutChart data={categories} /> */}
+        <DonutChart
+          slices={slices}
+          currency="USD"
+        />
       </section>
 
       <section className="flex flex-col gap-3">

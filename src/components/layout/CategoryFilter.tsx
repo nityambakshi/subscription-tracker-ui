@@ -15,7 +15,12 @@ export function CategoryFilter({ value, onChange }: Props) {
       className="flex gap-1.5 overflow-x-auto"
     >
       {categories.map((c) => (
-        <Chip key={c} active={value === c} onClick={() => onChange(c)}>
+        <Chip
+          key={c}
+          clickable={true}
+          active={value === c}
+          onClick={() => onChange(c)}
+        >
           {c}
         </Chip>
       ))}
