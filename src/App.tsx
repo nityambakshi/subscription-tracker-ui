@@ -1,16 +1,13 @@
-import Sidebar from "@/components/layout/Sidebar"
-import { RightPanel } from "@/components/layout/RightPanel";
+import Sidebar from '@/components/layout/Sidebar';
+import { Outlet } from 'react-router';
 
 function App() {
   return (
     <main className="flex">
       <Sidebar />
-      <section className="flex-1">hellow</section>
-      <RightPanel>
-        
-      </RightPanel>
+      <Outlet />
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

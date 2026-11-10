@@ -56,6 +56,7 @@
     --danger-soft:   #3b1212;
     --ring:          #818cf8;
     --card-shadow:   none;
+    --elevated-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
   }
 }
 
@@ -81,6 +82,7 @@
   --danger-soft:   #3b1212;
   --ring:          #818cf8;
   --card-shadow:   none;
+  --elevated-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
 }
 
 /* ---------- 2. Tailwind theme (inline: utilities read the variables live) ---------- */
@@ -127,6 +129,7 @@
   --text-title-plus: 17px;
   --text-heading:    24px;
   --text-stat:       22px;
+  --text-display:    28px;
 
   --text-micro--line-height:   14px;
   --text-caption--line-height: 16px;
@@ -137,9 +140,12 @@
   --text-title--line-height:   24px;
   --text-heading--line-height: 30px;
   --text-stat--line-height:    28px;
+  --text-display--line-height: 34px;
 
   --tracking-heading: -0.02em;
   --tracking-stat:    -0.01em;
+  --tracking-display: -0.02em;
+
 
   /* Radius */
   --radius-sm:   8px;
@@ -149,7 +155,8 @@
   --radius-full: 999px;
 
   /* Shadow */
-  --shadow-card: var(--card-shadow);
+  --shadow-card:      var(--card-shadow);
+  --shadow-elevated:  var(--elevated-shadow);
 
   /* Layout sizes */
   --container-sidebar: 232px;
