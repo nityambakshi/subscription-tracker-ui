@@ -1,19 +1,16 @@
-// src/components/charts/categorySlices.ts
-import type { SubscriptionTableRow } from '@/types/subscription-table';
 import type { ChartTone, DonutSlice } from '@/types/chart';
+import type { Subscription } from '@/types/Subscription';
 
-// Fixed colours per category, so the same category always gets the same colour
 const categoryTone: Record<string, ChartTone> = {
   Productivity: 'chart-1',
   Entertainment: 'chart-2',
   Utilities: 'chart-3',
 };
 
-// Monthly equivalent, so yearly plans are comparable with monthly ones
-const toMonthly = (s: SubscriptionTableRow) =>
-  s.cycle === 'yearly' ? Number(s.cost) / 12 : +s.cost;
+const toMonthly = (s: Subscription) =>
+  s.cycle === 'Yearly' ? Number(s.amount) / 12 : +s.amount;
 
-export function categorySlices(subs: SubscriptionTableRow[]): DonutSlice[] {
+export function categorySlices(subs: Subscription[]): DonutSlice[] {
   const totals = new Map<string, number>();
   for (const s of subs) {
     totals.set(s.category, (totals.get(s.category) ?? 0) + toMonthly(s));

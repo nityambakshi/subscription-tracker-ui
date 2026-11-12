@@ -16,6 +16,15 @@ function Home() {
   const [isSubError, setIsSubError] = useState<string | null>(null);
   const [category, setCategory] = useState<Category>('All');
 
+  useEffect(() => {
+    SubscriptionApi.list()
+      .then((data) => setSubscriptionData(data))
+      .catch(() => setIsSubError('Unable to get your subscriptions!'))
+      .finally(() => {
+        setIsSubLoading(false);
+      });
+  }, []);
+
   const rows =
     category === 'All'
       ? subscriptionData
@@ -74,13 +83,6 @@ function Home() {
     },
   ];
 
-  useEffect(() => {
-    SubscriptionApi.list()
-      .then((data) => setSubscriptionData(data))
-      .catch(() => setIsSubError('Unable to get your subscriptions!'))
-      .finally(() => setIsSubLoading(false));
-  }, []);
-
   return (
     <section className="flex flex-1">
       <aside className="flex flex-1 flex-col gap-6 px-9 py-8">
@@ -93,13 +95,14 @@ function Home() {
             columns={subscriptionTableColumns}
             rows={rows}
             loading={isSubLoading}
+            emptyMessage={isSubError || 'No subscriptions yet.'}
             getRowId={(row) => row.id}
             onRowClick={(row) => console.log('clicked row', row)}
           />
         </div>
       </aside>
 
-      <RightPanel />
+      {isSubLoading && <RightPanel sliceData={subscriptionData} />}
     </section>
   );
 }
