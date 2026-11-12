@@ -46,17 +46,3 @@ export type DataTableProps<T> = {
   loading?: boolean;
   emptyMessage?: string;
 };
-
-export type BillingCycle = 'monthly' | 'yearly';
-
-export type Subscription = {
-  id: string;
-  name: string;
-  color: string; // logo background, e.g. '#E11D48'
-  category: string;
-  amount: number; // in the subscription's own currency
-  currency: string; // ISO code, e.g. 'USD'
-  cycle: BillingCycle;
-  renewsOn: string; // 'YYYY-MM-DD'
-  reminderOn: boolean;
-};

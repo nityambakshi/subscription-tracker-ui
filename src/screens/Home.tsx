@@ -1,28 +1,31 @@
 import type { Category, Column } from '@/types/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DataTable from '@/components/layout/DataTable';
 import Dashboard from './Dashboard';
 import { CategoryFilter } from '@/components/layout/CategoryFilter';
 import { RightPanel } from '@/components/layout/RightPanel';
-import { subscriptionTableRows } from '@/constants/subscription-table.mock';
-import type { SubscriptionTableRow } from '@/types/subscription-table';
 import { iconsBySubscription } from '@/util/getBrandIcons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
+import { SubscriptionApi } from '@/api/subscription-api';
+import type { Subscription } from '@/types/Subscription';
 
 function Home() {
+  const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
+  const [isSubLoading, setIsSubLoading] = useState<boolean>(true);
+  const [isSubError, setIsSubError] = useState<string | null>(null);
   const [category, setCategory] = useState<Category>('All');
 
   const rows =
     category === 'All'
-      ? subscriptionTableRows
-      : subscriptionTableRows.filter((item) => item.category === category);
+      ? subscriptionData
+      : subscriptionData.filter((item) => item.category === category);
 
   const renderTextTableCell = (text: string) => (
     <p className="text-body text-fg font-medium">{text}</p>
   );
 
-  const subscriptionTableColumns: Column<SubscriptionTableRow>[] = [
+  const subscriptionTableColumns: Column<Subscription>[] = [
     {
       id: 'name',
       header: 'Subscription',
@@ -53,21 +56,30 @@ function Home() {
     {
       id: 'cost',
       header: 'Cost',
-      render: (row) => renderTextTableCell(row.cost),
+      render: (row) => renderTextTableCell(String(row.amount)),
     },
     {
       id: 'renews',
       header: 'Renews',
-      render: (row) => renderTextTableCell(row.renews),
+      render: (row) => renderTextTableCell(row.renewsOn),
     },
     {
       id: 'reminder',
       header: 'Reminder',
       render: (row) => {
-        return <Toggle checked={row.reminder} onChange={() => !row.reminder} />;
+        return (
+          <Toggle checked={row.reminderOn} onChange={() => !row.reminderOn} />
+        );
       },
     },
   ];
+
+  useEffect(() => {
+    SubscriptionApi.list()
+      .then((data) => setSubscriptionData(data))
+      .catch(() => setIsSubError('Unable to get your subscriptions!'))
+      .finally(() => setIsSubLoading(false));
+  }, []);
 
   return (
     <section className="flex flex-1">
@@ -77,9 +89,10 @@ function Home() {
         <CategoryFilter value={category} onChange={setCategory} />
 
         <div className="rounded-xl border border-border">
-          <DataTable<SubscriptionTableRow>
+          <DataTable<Subscription>
             columns={subscriptionTableColumns}
             rows={rows}
+            loading={isSubLoading}
             getRowId={(row) => row.id}
             onRowClick={(row) => console.log('clicked row', row)}
           />
