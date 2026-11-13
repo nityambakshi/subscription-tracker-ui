@@ -1,5 +1,5 @@
 import type { Category, Column } from '@/types/types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import DataTable from '@/components/layout/DataTable';
 import Dashboard from './Dashboard';
 import { CategoryFilter } from '@/components/layout/CategoryFilter';
@@ -7,28 +7,22 @@ import { RightPanel } from '@/components/layout/RightPanel';
 import { iconsBySubscription } from '@/util/getBrandIcons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
-import { SubscriptionApi } from '@/api/subscription-api';
 import type { Subscription } from '@/types/Subscription';
+import { useSubscriptions } from '@/hooks/api-hooks';
 
 function Home() {
-  const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
-  const [isSubLoading, setIsSubLoading] = useState<boolean>(true);
-  const [isSubError, setIsSubError] = useState<string | null>(null);
   const [category, setCategory] = useState<Category>('All');
-
-  useEffect(() => {
-    SubscriptionApi.list()
-      .then((data) => setSubscriptionData(data))
-      .catch(() => setIsSubError('Unable to get your subscriptions!'))
-      .finally(() => {
-        setIsSubLoading(false);
-      });
-  }, []);
+  const {
+    data: subscriptionData,
+    isLoading: isSubLoading,
+    isError: isSubError,
+    error: subError,
+  } = useSubscriptions();
 
   const rows =
     category === 'All'
       ? subscriptionData
-      : subscriptionData.filter((item) => item.category === category);
+      : subscriptionData?.filter((item) => item.category === category);
 
   const renderTextTableCell = (text: string) => (
     <p className="text-body text-fg font-medium">{text}</p>
@@ -39,8 +33,8 @@ function Home() {
       id: 'name',
       header: 'Subscription',
       render: (row) => {
-        const Icon = iconsBySubscription[row.id].logo;
-        const brandColor = iconsBySubscription[row.id].color;
+        const Icon = iconsBySubscription[row.logoKey].logo;
+        const brandColor = iconsBySubscription[row.logoKey].color;
 
         return (
           <div className="flex flex-1 gap-3">
@@ -93,16 +87,18 @@ function Home() {
         <div className="rounded-xl border border-border">
           <DataTable<Subscription>
             columns={subscriptionTableColumns}
-            rows={rows}
+            rows={rows || []}
             loading={isSubLoading}
-            emptyMessage={isSubError || 'No subscriptions yet.'}
+            emptyMessage={
+              isSubError ? subError.message : 'No subscriptions yet.'
+            }
             getRowId={(row) => row.id}
             onRowClick={(row) => console.log('clicked row', row)}
           />
         </div>
       </aside>
 
-      {isSubLoading && <RightPanel sliceData={subscriptionData} />}
+      {isSubLoading && <RightPanel sliceData={subscriptionData ?? []} />}
     </section>
   );
 }

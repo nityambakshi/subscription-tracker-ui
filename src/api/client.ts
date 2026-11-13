@@ -1,8 +1,6 @@
-import axios, { type InternalAxiosRequestConfig } from 'axios';
-import { tokenStore } from './token-store';
-import { queryClient } from './query-client';
+import axios from 'axios';
 
-const BASE_URL = '/api//v1';
+const BASE_URL = '/api/v1';
 
 export const api = axios.create({
   baseURL: BASE_URL,
@@ -19,17 +17,17 @@ export const api = axios.create({
 //   return config;
 // });
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const isAuthCall = error.config?.url?.includes('/auth/');
+// api.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     const isAuthCall = error.config?.url?.includes('/auth/');
 
-    if (error.response?.status === 401 && !isAuthCall) {
-      tokenStore.clear();
-      queryClient.clear();
-      window.location.assign('/login');
-    }
+//     if (error.response?.status === 401 && !isAuthCall) {
+//       tokenStore.clear();
+//       queryClient.clear();
+//       window.location.assign('/login');
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
