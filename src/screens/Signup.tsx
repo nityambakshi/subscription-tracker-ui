@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useSignup } from '@/hooks/api-hooks';
+import { useSignup } from '@/hooks/auth-hooks';
 import { isAxiosError } from 'axios';
 import { useState, type SubmitEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
@@ -146,7 +146,7 @@ function Signup() {
               <p className="text-small text-danger">{signupErrorMessage}</p>
             )}
 
-            <Button type="submit" className="w-full" disabled={isSignupPending}>
+            <Button type="submit" fullWidth disabled={isSignupPending}>
               {isSignupPending ? 'Creating account...' : 'Create account'}
             </Button>
           </form>

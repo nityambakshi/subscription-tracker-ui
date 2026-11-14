@@ -1,15 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { subscriptionsApi } from '@/api/subscriptions';
 import { queryKeys } from '@/api/query-keys';
-import { authApi, type LoginRequest, type SignupRequest, type User } from '@/api/auth';
+import {
+  authApi,
+  type LoginRequest,
+  type SignupRequest,
+  type User,
+} from '@/api/auth';
 import { isAxiosError } from 'axios';
-
-export function useSubscriptions() {
-  return useQuery({
-    queryKey: queryKeys.subscriptions.list(),
-    queryFn: subscriptionsApi.list,
-  });
-}
 
 export function useLogin() {
   const queryClient = useQueryClient();

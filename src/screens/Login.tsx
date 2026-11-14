@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useLogin } from '@/hooks/api-hooks';
+import { useLogin } from '@/hooks/auth-hooks';
 import { isAxiosError } from 'axios';
 import { useState, type SubmitEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';

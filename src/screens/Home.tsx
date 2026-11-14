@@ -8,7 +8,7 @@ import { iconsBySubscription } from '@/util/getBrandIcons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
 import type { Subscription } from '@/types/Subscription';
-import { useSubscriptions } from '@/hooks/api-hooks';
+import { useSubscriptions } from '@/hooks/auth-hooks';
 
 function Home() {
   const [category, setCategory] = useState<Category>('All');
