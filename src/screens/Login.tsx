@@ -74,11 +74,14 @@ function Login() {
     );
   };
 
-  const loginErrorMessage = isLoginError
-    ? isAxiosError(loginError) && loginError.response?.status === 401
-      ? 'Invalid email or password'
-      : 'Something went wrong. Try again.'
-    : undefined;
+  let loginErrorMessage: string | undefined;
+  if (isLoginError) {
+    loginErrorMessage = 'Something went wrong. Try again.';
+    if (isAxiosError<{ detail?: string }>(loginError)) {
+      loginErrorMessage =
+        loginError.response?.data?.detail ?? loginErrorMessage;
+    }
+  }
 
   const formMessage = fieldErrors.form ?? loginErrorMessage;
 
