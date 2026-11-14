@@ -83,8 +83,7 @@ function Signup() {
   if (isSignupError) {
     errorMessages = 'Something went wrong. Try again.';
     if (isAxiosError<{ detail?: string }>(signupError)) {
-      errorMessages =
-        signupError.response?.data?.detail ?? errorMessages;
+      errorMessages = signupError.response?.data?.detail ?? errorMessages;
     }
   }
 
@@ -94,14 +93,16 @@ function Signup() {
     <main className="flex min-h-dvh items-center justify-center bg-canvas">
       <Card className="w-full max-w-md p-8">
         <section className="flex flex-col gap-6">
-          <h3 className="font-semibold text-title">Recur</h3>
+          <div className="text-title font-semibold text-fg">Recur</div>
 
-          <aside className="flex flex-col gap-1.5">
-            <h1 className="text-display font-semibold">Create your account</h1>
+          <div className="flex flex-col gap-1.5">
+            <h1 className="text-display font-semibold text-fg">
+              Create your account
+            </h1>
             <p className="text-body text-fg-muted">
               Start tracking your subscriptions in one place
             </p>
-          </aside>
+          </div>
 
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input
