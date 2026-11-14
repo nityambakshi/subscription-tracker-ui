@@ -28,9 +28,7 @@ function Sidebar() {
 
   return (
     <Panel side="left" size="sidebar">
-      <h1 className="text-heading font-semibold tracking-tight text-fg">
-        Recur
-      </h1>
+      <p className="text-heading font-semibold tracking-tight text-fg">Recur</p>
 
       <div className="flex flex-1 flex-col gap-1">
         {sideNavOptions.map((option) => (

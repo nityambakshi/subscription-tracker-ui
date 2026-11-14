@@ -34,8 +34,9 @@ function Home() {
       id: 'name',
       header: 'Subscription',
       render: (row) => {
-        const Icon = iconsBySubscription[row.logoKey].logo || <LuStore />;
-        const brandColor = iconsBySubscription[row.logoKey].color;
+        const item = iconsBySubscription[row.logoKey];
+        const Icon = item?.logo ?? <LuStore />;
+        const brandColor = item?.color ?? 'currentColor';
 
         return (
           <div className="flex flex-1 gap-3">
