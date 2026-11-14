@@ -21,6 +21,6 @@ export const iconsBySubscription: Record<string, BrandLogoDetails> = {
   },
   notion: {
     logo: SiNotion,
-    color: '#FFFFFF',
+    color: 'currentColor',
   },
 };
