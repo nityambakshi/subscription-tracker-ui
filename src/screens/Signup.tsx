@@ -79,14 +79,16 @@ function Signup() {
     );
   };
 
-  console.log(signupError);
-  const signupErrorMessages = isSignupError
-    ? isAxiosError(signupError) && signupError.response?.status === 40
-      ? signupError.message
-      : 'Something went wrong. Try again.'
-    : undefined;
+  let errorMessages: string | undefined;
+  if (isSignupError) {
+    errorMessages = 'Something went wrong. Try again.';
+    if (isAxiosError<{ detail?: string }>(signupError)) {
+      errorMessages =
+        signupError.response?.data?.detail ?? errorMessages;
+    }
+  }
 
-  const signupErrorMessage = fieldErrors.form ?? signupErrorMessages;
+  const signupErrorMessage = fieldErrors.form ?? errorMessages;
 
   return (
     <main className="flex min-h-dvh items-center justify-center bg-canvas">
