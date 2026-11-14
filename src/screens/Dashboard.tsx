@@ -12,9 +12,9 @@ function Dashboard() {
     <>
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <p className="text-heading font-semibold tracking-heading text-fg">
+          <h1 className="text-heading font-semibold tracking-heading text-fg">
             {greeting} {user?.fullName?.split(' ')[0] ?? ''}
-          </p>
+          </h1>
           <p className="text-body text-fg-muted">
             {day}, {date}
           </p>
@@ -34,7 +34,7 @@ function Dashboard() {
         </div>
       </header>
 
-      <aside className="grid grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-4 gap-3.5">
         {statCards.map((card) => (
           <Card key={card.id} className="w-full">
             <div className="flex flex-col gap-1.5 px-4.5 py-4">
@@ -48,7 +48,7 @@ function Dashboard() {
             </div>
           </Card>
         ))}
-      </aside>
+      </div>
     </>
   );
 }
