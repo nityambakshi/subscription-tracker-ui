@@ -36,6 +36,20 @@ export function useSignup() {
   });
 }
 
+export function useLogout() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => authApi.logout(),
+
+    // Run whether the request succeeds or fails, so the user is always logged out locally
+    onSettled: () => {
+      queryClient.clear();
+      queryClient.setQueryData(queryKeys.me, null);
+    },
+  });
+}
+
 export function useMe() {
   return useQuery({
     queryKey: queryKeys.me,

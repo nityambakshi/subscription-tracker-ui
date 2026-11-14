@@ -74,7 +74,7 @@ function Signup() {
     setFieldErrors({});
 
     mutate(
-      { name: trimmedName, email: trimmedEmail, password: password },
+      { fullName: trimmedName, email: trimmedEmail, password: password },
       { onSuccess: () => navigate('/', { replace: true }) }
     );
   };

@@ -1,25 +1,31 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { statCards } from '@/constants/mock-constants';
+import { useMe } from '@/hooks/auth-hooks';
 import { getDashboardDateInfo } from '@/util/greeting';
 
 function Dashboard() {
   const { greeting, day, date } = getDashboardDateInfo();
+  const { data: user } = useMe();
 
   return (
     <>
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <h1 className="text-heading font-semibold tracking-heading text-fg">
-            {greeting} Nityam
+            {greeting} {user?.fullName?.split(' ')[0] ?? ''}
           </h1>
           <p className="text-body text-fg-muted">
             {day}, {date}
           </p>
         </div>
         <div className="flex items-center gap-2.5">
-          <label className="flex h-9.5 w-55 items-center rounded-md border border-border bg-surface px-3">
+          <label
+            aria-label="Search subscriptions"
+            className="flex h-9.5 w-55 items-center rounded-md border border-border bg-surface px-3"
+          >
             <input
+              aria-label="Search subscriptions input"
               placeholder="Search subscriptions"
               className="w-full bg-transparent text-body text-fg outline-none placeholder:text-fg-muted"
             />

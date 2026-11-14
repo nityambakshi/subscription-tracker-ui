@@ -3,6 +3,7 @@ import { api } from './client';
 export type User = {
   userId?: string;
   username: string;
+  fullName: string;
 };
 
 export type LoginRequest = {
@@ -11,7 +12,7 @@ export type LoginRequest = {
 };
 
 export type SignupRequest = {
-  name: string;
+  fullName: string;
   email: string;
   password: string;
 };
@@ -22,6 +23,8 @@ export const authApi = {
 
   signup: (body: SignupRequest) =>
     api.post<User>('/auth/signup', body).then((r) => r.data),
+
+  logout: () => api.post<void>('/auth/logout').then((r) => r.data),
 
   me: () => api.get<User>('/auth/me').then((r) => r.data),
 };

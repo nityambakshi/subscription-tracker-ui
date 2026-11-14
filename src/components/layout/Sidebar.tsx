@@ -1,7 +1,9 @@
 import { Panel } from './Panel';
 import type { NavItem } from '../../types/types';
 import { useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
+import { Button } from '../ui/Button';
+import { useLogout } from '@/hooks/auth-hooks';
 
 const sideNavOptions: NavItem[] = [
   { id: 'overview', label: 'Overview', to: '/' },
@@ -17,6 +19,14 @@ const activeNavItemClass = 'bg-accent-soft text-ring font-semibold';
 
 function Sidebar() {
   const [activeNavId, setActiveNavId] = useState('overview');
+  const { mutate: logout, isPending } = useLogout();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSettled: () => navigate('/login', { replace: true }),
+    });
+  };
 
   return (
     <Panel side="left" size="sidebar">
@@ -41,6 +51,15 @@ function Sidebar() {
         <p className="text-label font-semibold">Monthly Budget</p>
         <p className="text-small text-fg-muted">$92 of $180. 51% used</p>
       </div>
+
+      <Button
+        variant="secondary"
+        fullWidth
+        onClick={handleLogout}
+        disabled={isPending}
+      >
+        {isPending ? 'Signing out…' : 'Sign out'}
+      </Button>
     </Panel>
   );
 }
