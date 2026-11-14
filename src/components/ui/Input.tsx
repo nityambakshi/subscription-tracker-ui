@@ -1,9 +1,10 @@
-import { useId, type InputHTMLAttributes } from 'react';
+import { useId, type InputHTMLAttributes, type ReactNode } from 'react';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   hint?: string;
   error?: string;
+  labelAction?: ReactNode;
 };
 
 export function Input({
@@ -11,6 +12,7 @@ export function Input({
   hint,
   error,
   id,
+  labelAction,
   className = '',
   ...props
 }: InputProps) {
@@ -21,11 +23,15 @@ export function Input({
 
   return (
     <div className="flex flex-col gap-1.5">
-      {label && (
-        <label htmlFor={inputId} className="text-label font-medium text-fg">
-          {label}
-        </label>
-      )}
+      <div className="flex items-center justify-between">
+        {label && (
+          <label htmlFor={inputId} className="text-label font-medium text-fg">
+            {label}
+          </label>
+        )}
+
+        {labelAction && <div>{labelAction}</div>}
+      </div>
 
       <input
         id={inputId}

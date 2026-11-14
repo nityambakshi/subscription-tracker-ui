@@ -27,6 +27,7 @@ export function Button({
         'text-body font-medium transition-colors duration-fast',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
         'disabled:cursor-not-allowed disabled:opacity-50',
+        'hover:cursor-pointer',
         variantClasses[variant],
         fullWidth ? 'w-full' : '',
         className,
