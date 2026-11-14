@@ -7,11 +7,16 @@ import Settings from '@/screens/Settings';
 import Home from '@/screens/Home';
 import Login from '@/screens/Login';
 import { RedirectIfAuthed, RequireAuth } from './guard';
+import Signup from '@/screens/Signup';
 
 export const router = createBrowserRouter([
   {
     element: <RedirectIfAuthed />,
     children: [{ path: '/login', element: <Login /> }],
+  },
+  {
+    element: <RedirectIfAuthed />,
+    children: [{ path: '/signup', element: <Signup /> }],
   },
   {
     element: <RequireAuth />,

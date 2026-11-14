@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { subscriptionsApi } from '@/api/subscriptions';
 import { queryKeys } from '@/api/query-keys';
-import { authApi, type LoginRequest, type User } from '@/api/auth';
+import { authApi, type LoginRequest, type SignupRequest, type User } from '@/api/auth';
 import { isAxiosError } from 'axios';
 
 export function useSubscriptions() {
@@ -16,6 +16,20 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (body: LoginRequest) => authApi.login(body),
+
+    onSuccess: (user) => {
+      // Drop anything cached from a previous user, then store the new one
+      queryClient.clear();
+      queryClient.setQueryData(queryKeys.me, user);
+    },
+  });
+}
+
+export function useSignup() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (body: SignupRequest) => authApi.signup(body),
 
     onSuccess: (user) => {
       // Drop anything cached from a previous user, then store the new one
