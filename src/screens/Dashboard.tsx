@@ -12,9 +12,9 @@ function Dashboard() {
     <>
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <h1 className="text-heading font-semibold tracking-heading text-fg">
+          <p className="text-heading font-semibold tracking-heading text-fg">
             {greeting} {user?.fullName?.split(' ')[0] ?? ''}
-          </h1>
+          </p>
           <p className="text-body text-fg-muted">
             {day}, {date}
           </p>

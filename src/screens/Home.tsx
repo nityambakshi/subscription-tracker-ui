@@ -8,7 +8,8 @@ import { iconsBySubscription } from '@/util/getBrandIcons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
 import type { Subscription } from '@/types/Subscription';
-import { useSubscriptions } from '@/hooks/auth-hooks';
+import { useSubscriptions } from '@/hooks/subscription-hooks';
+import { LuStore } from 'react-icons/lu';
 
 function Home() {
   const [category, setCategory] = useState<Category>('All');
@@ -33,7 +34,7 @@ function Home() {
       id: 'name',
       header: 'Subscription',
       render: (row) => {
-        const Icon = iconsBySubscription[row.logoKey].logo;
+        const Icon = iconsBySubscription[row.logoKey].logo || <LuStore />;
         const brandColor = iconsBySubscription[row.logoKey].color;
 
         return (
@@ -98,7 +99,7 @@ function Home() {
         </div>
       </aside>
 
-      {isSubLoading && <RightPanel sliceData={subscriptionData ?? []} />}
+      {!isSubLoading && <RightPanel sliceData={subscriptionData ?? []} />}
     </section>
   );
 }

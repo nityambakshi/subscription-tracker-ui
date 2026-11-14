@@ -8,26 +8,3 @@ export const api = axios.create({
   timeout: 15_000,
   headers: { 'Content-Type': 'application/json' },
 });
-
-// api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-//   const token = tokenStore.get();
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
-
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     const isAuthCall = error.config?.url?.includes('/auth/');
-
-//     if (error.response?.status === 401 && !isAuthCall) {
-//       tokenStore.clear();
-//       queryClient.clear();
-//       window.location.assign('/login');
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );

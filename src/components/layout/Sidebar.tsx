@@ -1,6 +1,5 @@
 import { Panel } from './Panel';
 import type { NavItem } from '../../types/types';
-import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { Button } from '../ui/Button';
 import { useLogout } from '@/hooks/auth-hooks';
@@ -15,10 +14,9 @@ const sideNavOptions: NavItem[] = [
 
 const navItemClass =
   'rounded-md px-2.5 py-2 text-body text-fg-muted transition-colors duration-fast hover:bg-surface-2 hover:text-fg hover:cursor-pointer';
-const activeNavItemClass = 'bg-accent-soft text-ring font-semibold';
+const activeNavItemClass = 'bg-accent-soft text-accent font-semibold';
 
 function Sidebar() {
-  const [activeNavId, setActiveNavId] = useState('overview');
   const { mutate: logout, isPending } = useLogout();
   const navigate = useNavigate();
 
@@ -39,8 +37,9 @@ function Sidebar() {
           <NavLink
             to={option.to}
             key={option.id}
-            className={`${navItemClass} ${activeNavId === option.id ? activeNavItemClass : ''}`}
-            onClick={() => setActiveNavId(option.id)}
+            className={({ isActive }) =>
+              isActive ? `${navItemClass} ${activeNavItemClass}` : navItemClass
+            }
           >
             {option.label}
           </NavLink>
