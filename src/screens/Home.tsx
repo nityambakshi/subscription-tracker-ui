@@ -10,6 +10,12 @@ import { Toggle } from '@/components/ui/Toggle';
 import type { Subscription } from '@/types/Subscription';
 import { useSubscriptions } from '@/hooks/subscription-hooks';
 import { LuStore } from 'react-icons/lu';
+import {
+  daysUntil,
+  formatDate,
+  formatMoney,
+  formatRelativeDays,
+} from '@/util/format';
 
 function Home() {
   const [category, setCategory] = useState<Category>('All');
@@ -35,7 +41,7 @@ function Home() {
       header: 'Subscription',
       render: (row) => {
         const item = iconsBySubscription[row.logoKey];
-        const Icon = item?.logo ?? <LuStore />;
+        const Icon = item?.logo ?? LuStore;
         const brandColor = item?.color ?? 'currentColor';
 
         return (
@@ -61,12 +67,26 @@ function Home() {
     {
       id: 'cost',
       header: 'Cost',
-      render: (row) => renderTextTableCell(String(row.amount)),
+      render: (row) =>
+        renderTextTableCell(formatMoney(row.amount, row.currency)),
     },
     {
       id: 'renews',
       header: 'Renews',
-      render: (row) => renderTextTableCell(row.renewsOn),
+      render: (row) => {
+        const days = daysUntil(row.renewsOn);
+
+        return (
+          <div className="flex flex-col">
+            {renderTextTableCell(formatDate(row.renewsOn))}
+            <span
+              className={`text-small ${days < 3 ? 'text-warning' : 'text-fg-muted'}`}
+            >
+              {formatRelativeDays(days)}
+            </span>
+          </div>
+        );
+      },
     },
     {
       id: 'reminder',
