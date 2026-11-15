@@ -181,18 +181,34 @@ const aliases: Record<string, string> = {
   nyt: 'newyorktimes',
 };
 
-export function getBrandIcon(logoKey: string): BrandLogoDetails | undefined {
-  const resolvedKey = aliases[logoKey] ?? logoKey;
-  return brandIcons[resolvedKey];
+export const DEFAULT_LOGO_KEY = 'default';
+
+export function normaliseName(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
-/** Resolved map (primaries + aliases) for direct key lookup. */
+// Maps the typed name to a logo key. Used by the form, and stored as logoKey.
+export function findBrandKey(name: string): string {
+  const normalised = normaliseName(name);
+  if (!normalised) return DEFAULT_LOGO_KEY;
+
+  if (brandIcons[normalised]) return normalised;
+  if (aliases[normalised]) return aliases[normalised];
+
+  // "Netflix Premium" starts with "netflix"; keys under 4 characters are skipped
+  const prefixMatch = Object.keys(brandIcons).find(
+    (key) => key.length >= 4 && normalised.startsWith(key)
+  );
+
+  return prefixMatch ?? DEFAULT_LOGO_KEY;
+}
+
+// The table reads this. Primary brands plus aliases, so every key resolves.
 export const iconsBySubscription: Record<string, BrandLogoDetails> = {
   ...brandIcons,
   ...Object.fromEntries(
-    Object.entries(aliases).flatMap(([alias, target]) => {
-      const icon = brandIcons[target];
-      return icon ? [[alias, icon]] : [];
-    })
+    Object.entries(aliases).flatMap(([alias, target]) =>
+      brandIcons[target] ? [[alias, brandIcons[target]]] : []
+    )
   ),
 };
