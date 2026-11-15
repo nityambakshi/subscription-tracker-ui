@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/Input';
 import { useMe } from '@/hooks/auth-hooks';
 import { useSubscriptions } from '@/hooks/subscription-hooks';
 import type { StatCard } from '@/types/types';
@@ -7,7 +8,12 @@ import { formatDate, formatMoney, formatRelativeDays } from '@/util/format';
 import { getDashboardDateInfo } from '@/util/greeting';
 import { computeStats } from '@/util/subscription-stats';
 
-function Dashboard() {
+type DashboardProps = {
+  search: string;
+  onSearchChange: (search: string) => void;
+};
+
+function Dashboard({ search, onSearchChange }: DashboardProps) {
   const { greeting, day, date } = getDashboardDateInfo();
   const { data: user } = useMe();
   const { data: subscriptions, isPending } = useSubscriptions();
@@ -61,16 +67,13 @@ function Dashboard() {
           </p>
         </div>
         <div className="flex items-center gap-2.5">
-          <label
+          <Input
+            className="w-55"
             aria-label="Search subscriptions"
-            className="flex h-9.5 w-55 items-center rounded-md border border-border bg-surface px-3"
-          >
-            <input
-              aria-label="Search subscriptions input"
-              placeholder="Search subscriptions"
-              className="w-full bg-transparent text-body text-fg outline-none placeholder:text-fg-muted"
-            />
-          </label>
+            placeholder="Search subscriptions"
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
           <Button>+ Add subscription</Button>
         </div>
       </header>

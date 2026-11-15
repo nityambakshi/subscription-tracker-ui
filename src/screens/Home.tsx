@@ -18,6 +18,7 @@ import {
 } from '@/util/format';
 
 function Home() {
+  const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState<Category>('All');
   const {
     data: subscriptionData,
@@ -32,10 +33,17 @@ function Home() {
     setReminder({ subscriptionId: row.id, reminderOn: checked });
   };
 
-  const rows =
+  const categoryRows =
     category === 'All'
-      ? subscriptionData
-      : subscriptionData?.filter((item) => item.category === category);
+      ? (subscriptionData ?? [])
+      : (subscriptionData ?? []).filter((item) => item.category === category);
+
+  const searchTerm = searchQuery.trim().toLowerCase();
+  const rows = searchTerm
+    ? categoryRows.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm)
+      )
+    : categoryRows;
 
   const renderTextTableCell = (text: string) => (
     <p className="text-body text-fg font-medium">{text}</p>
@@ -111,7 +119,7 @@ function Home() {
   return (
     <section className="flex flex-1">
       <aside className="flex flex-1 flex-col gap-6 px-9 py-8">
-        <Dashboard />
+        <Dashboard search={searchQuery} onSearchChange={setSearchQuery} />
 
         <CategoryFilter value={category} onChange={setCategory} />
 

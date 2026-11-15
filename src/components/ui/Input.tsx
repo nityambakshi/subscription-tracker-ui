@@ -23,15 +23,17 @@ export function Input({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between">
-        {label && (
-          <label htmlFor={inputId} className="text-label font-medium text-fg">
-            {label}
-          </label>
-        )}
+      {(label || labelAction) && (
+        <div className="flex items-center justify-between">
+          {label && (
+            <label htmlFor={inputId} className="text-label font-medium text-fg">
+              {label}
+            </label>
+          )}
 
-        {labelAction && <div>{labelAction}</div>}
-      </div>
+          {labelAction && <div>{labelAction}</div>}
+        </div>
+      )}
 
       <input
         id={inputId}
