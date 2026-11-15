@@ -23,7 +23,10 @@ export function RightPanel({ sliceData }: RightPanelProps) {
       </section>
 
       <section className="flex flex-col gap-3">
-        <SectionHeader title="Next 14 days" meta="3 renewals" />
+        <SectionHeader
+          title="Next 14 days"
+          meta={`${upcoming.length} renewals.`}
+        />
         <UpcomingRenewals items={upcoming} />
       </section>
     </Panel>

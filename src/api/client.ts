@@ -23,12 +23,12 @@ type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 let refreshInFlight: Promise<void> | null = null;
 
 function refreshSession(): Promise<void> {
-  if (!refreshInFlight) {
-    refreshInFlight = axios
-      .post(`${BASE_URL}/auth/refresh`, null, { withCredentials: true })
-      .then(() => undefined)
-      .finally(() => (refreshInFlight = null));
-  }
+  refreshInFlight ??= axios
+    .post(`${BASE_URL}/auth/refresh`, null, { withCredentials: true })
+    .then(() => undefined)
+    .finally(() => {
+      refreshInFlight = null;
+    });
 
   return refreshInFlight;
 }

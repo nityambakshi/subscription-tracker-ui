@@ -118,7 +118,7 @@ function Home() {
 
   return (
     <section className="flex flex-1">
-      <aside className="flex flex-1 flex-col gap-6 px-9 py-8">
+      <div className="flex flex-1 flex-col gap-6 px-9 py-8">
         <Dashboard search={searchQuery} onSearchChange={setSearchQuery} />
 
         <CategoryFilter value={category} onChange={setCategory} />
@@ -129,13 +129,17 @@ function Home() {
             rows={rows || []}
             loading={isSubLoading}
             emptyMessage={
-              isSubError ? subError.message : 'No subscriptions yet.'
+              isSubError
+                ? subError.message
+                : searchQuery
+                  ? 'No search results'
+                  : 'No subscriptions yet.'
             }
             getRowId={(row) => row.id}
             onRowClick={(row) => console.log('clicked row', row)}
           />
         </div>
-      </aside>
+      </div>
 
       {!isSubLoading && <RightPanel sliceData={subscriptionData ?? []} />}
     </section>

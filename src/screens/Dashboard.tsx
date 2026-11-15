@@ -47,7 +47,7 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
     {
       id: 'nextRenewal',
       label: 'Next renewal',
-      value: stats.next ? `${stats.next.name}` : '—',
+      value: stats.next ? stats.next.name : '—',
       hint: stats.next
         ? `${formatDate(stats.next.renewsOn)} · ${formatRelativeDays(stats.next.days)}`
         : 'No upcoming renewals',
