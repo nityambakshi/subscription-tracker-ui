@@ -34,7 +34,7 @@ function refreshSession(): Promise<void> {
 }
 
 function endSession() {
-  queryClient.clear();
+  queryClient.removeQueries({ queryKey: queryKeys.subscriptions.all });
   queryClient.setQueryData(queryKeys.me, null);
 
   if (window.location.pathname !== '/login') {
