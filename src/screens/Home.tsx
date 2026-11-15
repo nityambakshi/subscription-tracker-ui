@@ -131,7 +131,7 @@ function Home() {
             emptyMessage={
               isSubError
                 ? subError.message
-                : searchQuery
+                : searchQuery || category !== 'All'
                   ? 'No subscriptions match your filters.'
                   : 'No subscriptions yet.'
             }
