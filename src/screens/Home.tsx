@@ -8,7 +8,7 @@ import { iconsBySubscription } from '@/util/getBrandIcons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
 import type { Subscription } from '@/types/Subscription';
-import { useSubscriptions } from '@/hooks/subscription-hooks';
+import { useSetReminder, useSubscriptions } from '@/hooks/subscription-hooks';
 import { LuStore } from 'react-icons/lu';
 import {
   daysUntil,
@@ -25,6 +25,12 @@ function Home() {
     isError: isSubError,
     error: subError,
   } = useSubscriptions();
+
+  const { mutate: setReminder } = useSetReminder();
+
+  const handleReminderToggle = (row: Subscription, checked: boolean) => {
+    setReminder({ subscriptionId: row.id, reminderOn: checked });
+  };
 
   const rows =
     category === 'All'
@@ -93,7 +99,10 @@ function Home() {
       header: 'Reminder',
       render: (row) => {
         return (
-          <Toggle checked={row.reminderOn} onChange={() => !row.reminderOn} />
+          <Toggle
+            checked={row.reminderOn}
+            onChange={(checked) => handleReminderToggle(row, checked)}
+          />
         );
       },
     },

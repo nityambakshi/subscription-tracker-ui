@@ -1,10 +1,50 @@
-import { queryKeys } from "@/api/query-keys";
-import { subscriptionsApi } from "@/api/subscriptions";
-import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from '@/api/query-keys';
+import { subscriptionsApi } from '@/api/subscriptions';
+import type { Subscription } from '@/types/Subscription';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export function useSubscriptions() {
   return useQuery({
     queryKey: queryKeys.subscriptions.list(),
     queryFn: subscriptionsApi.list,
+  });
+}
+
+export function useSetReminder() {
+  const queryClient = useQueryClient();
+  const listKey = queryKeys.subscriptions.list();
+
+  return useMutation({
+    mutationFn: async ({
+      subscriptionId,
+      reminderOn,
+    }: {
+      subscriptionId: string;
+      reminderOn: boolean;
+    }) => subscriptionsApi.setReminder(subscriptionId, reminderOn),
+    onMutate: async ({ subscriptionId, reminderOn }) => {
+      await queryClient.cancelQueries({ queryKey: listKey });
+
+      const previousSubscriptions =
+        queryClient.getQueryData<Subscription[]>(listKey);
+
+      queryClient.setQueryData<Subscription[]>(listKey, (old) =>
+        old?.map((subscription) =>
+          subscription.id === subscriptionId
+            ? { ...subscription, reminderOn }
+            : subscription
+        )
+      );
+
+      return { previousSubscriptions };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousSubscriptions) {
+        queryClient.setQueryData(listKey, context.previousSubscriptions);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.subscriptions.all });
+    },
   });
 }
