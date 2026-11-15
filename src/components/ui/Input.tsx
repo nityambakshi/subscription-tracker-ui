@@ -40,7 +40,7 @@ export function Input({
         aria-invalid={error ? true : undefined}
         aria-describedby={message ? messageId : undefined}
         className={[
-          'h-10 rounded-md border border-border bg-surface px-3 text-body text-fg',
+          'h-9.5 rounded-md border border-border bg-surface px-3 text-body text-fg',
           'placeholder:text-fg-muted outline-none transition-colors duration-fast',
           'focus:border-ring focus:ring-2 focus:ring-ring/25',
           'aria-invalid:border-danger',
