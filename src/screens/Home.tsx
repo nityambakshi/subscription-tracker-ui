@@ -132,7 +132,7 @@ function Home() {
               isSubError
                 ? subError.message
                 : searchQuery
-                  ? 'No search results'
+                  ? 'No subscriptions match your filters.'
                   : 'No subscriptions yet.'
             }
             getRowId={(row) => row.id}
