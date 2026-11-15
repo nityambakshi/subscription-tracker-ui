@@ -6,6 +6,7 @@ export const categories = [
   'Entertainment',
   'Utilities',
   'Productivity',
+  'Others',
 ] as const;
 
 export const subscriptionsList: Column<Subscription>[] = [
