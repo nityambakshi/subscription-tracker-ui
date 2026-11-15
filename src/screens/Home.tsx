@@ -4,7 +4,7 @@ import DataTable from '@/components/layout/DataTable';
 import Dashboard from './Dashboard';
 import { CategoryFilter } from '@/components/layout/CategoryFilter';
 import { RightPanel } from '@/components/layout/RightPanel';
-import { iconsBySubscription } from '@/util/getBrandIcons';
+import { getBrandIcon } from '@/util/getBrandIcons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
 import type { Subscription } from '@/types/Subscription';
@@ -54,7 +54,7 @@ function Home() {
       id: 'name',
       header: 'Subscription',
       render: (row) => {
-        const item = iconsBySubscription[row.logoKey];
+        const item = getBrandIcon(row.logoKey);
         const Icon = item?.logo ?? LuStore;
         const brandColor = item?.color ?? 'currentColor';
 
