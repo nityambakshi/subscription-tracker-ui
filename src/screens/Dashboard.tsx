@@ -23,7 +23,7 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
     {
       id: 'monthlySpend',
       label: 'Monthly spend',
-      value: isPending ? '-' : formatMoney(stats.monthly, stats.currency),
+      value: isPending ? '—' : formatMoney(stats.monthly, stats.currency),
       hint:
         stats.otherCurrencyCount > 0
           ? `Excludes ${stats.otherCurrencyCount} in other currencies`
@@ -33,21 +33,21 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
     {
       id: 'yearlyProjection',
       label: 'Yearly projection',
-      value: isPending ? '-' : formatMoney(stats.yearly, stats.currency),
+      value: isPending ? '—' : formatMoney(stats.yearly, stats.currency),
       hint: 'Based on current plans (Monthly × 12)',
       tone: 'default',
     },
     {
       id: 'active',
       label: 'Active',
-      value: isPending ? '-' : String(stats.count),
-      hint: isPending ? '-' : `${stats.renewingThisWeek} renewing this week`,
+      value: isPending ? '—' : String(stats.count),
+      hint: isPending ? '—' : `${stats.renewingThisWeek} renewing this week`,
       tone: 'default',
     },
     {
       id: 'nextRenewal',
       label: 'Next renewal',
-      value: stats.next ? `${stats.next.name}` : '-',
+      value: stats.next ? `${stats.next.name}` : '—',
       hint: stats.next
         ? `${formatDate(stats.next.renewsOn)} · ${formatRelativeDays(stats.next.days)}`
         : 'No upcoming renewals',
