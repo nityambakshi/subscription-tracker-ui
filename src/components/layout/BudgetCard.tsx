@@ -5,33 +5,34 @@ import { formatMoney } from '@/util/format';
 
 const MONTHLY_BUDGET = 5000;
 
+function BudgetCardSkeleton() {
+  return (
+    <Card className="flex flex-col gap-2 px-4.5 py-4">
+      <span className="sr-only">Loading monthly budget</span>
+      <div aria-hidden="true" className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <div className="h-4.5 w-28 animate-pulse rounded-full bg-border" />
+          <div className="h-4 w-8 animate-pulse rounded-full bg-border" />
+        </div>
+        <div className="h-1.5 w-full animate-pulse rounded-full bg-border" />
+        <div className="h-4 w-40 animate-pulse rounded-full bg-border" />
+      </div>
+    </Card>
+  );
+}
+
 function BudgetCard() {
-  const { data: subscriptions, isPending } = useSubscriptions();
+  const { data: subscriptions, isPending, isError } = useSubscriptions();
+
+  if (isPending) return <BudgetCardSkeleton />;
 
   const cardStyle = 'flex flex-col gap-2 px-4.5 py-4';
 
-  if (isPending) {
+  if (isError) {
     return (
-      <div
-        aria-busy="true"
-        className={`${cardStyle} bg-surface-2 rounded-lg h-20`}
-      >
-        <div
-          aria-hidden="true"
-          className="h-3 rounded-full w-full flex justify-between"
-        >
-          <div className="w-4/6 h-full bg-border rounded-full animate-pulse" />
-          <div className="w-1/6 h-full bg-border rounded-full animate-pulse" />
-        </div>
-        <div
-          aria-hidden="true"
-          className="h-1.5 bg-border rounded-full w-full"
-        />
-        <div
-          aria-hidden="true"
-          className="h-3 bg-border rounded-full w-full animate-pulse"
-        />
-      </div>
+      <Card className="flex flex-col gap-2 px-4.5 py-4">
+        <p className="text-small text-danger">Could not load budget</p>
+      </Card>
     );
   }
 
