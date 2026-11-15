@@ -1,5 +1,5 @@
 import type { Subscription } from '@/types/Subscription';
-import { daysUntil } from '@/util/format';
+import { upcomingRenewals } from './upcomingRenewals';
 
 // Totals are shown in one currency until conversion is added
 export const DISPLAY_CURRENCY = 'INR';
@@ -9,6 +9,10 @@ export function toMonthlyAmount(sub: Subscription): number {
   return sub.cycle === 'Yearly' ? sub.amount / 12 : sub.amount;
 }
 
+export function inDisplayCurrency(subs: Subscription[]): Subscription[] {
+  return subs.filter((sub) => sub.currency === DISPLAY_CURRENCY);
+}
+
 export function computeStats(
   subs: Subscription[],
   currency = DISPLAY_CURRENCY
@@ -16,11 +20,7 @@ export function computeStats(
   const inCurrency = subs.filter((s) => s.currency === currency);
   const monthly = inCurrency.reduce((sum, s) => sum + toMonthlyAmount(s), 0);
 
-  // Only renewals that haven't passed yet, earliest first
-  const upcoming = subs
-    .map((sub) => ({ sub, days: daysUntil(sub.renewsOn) }))
-    .filter((item) => item.days >= 0)
-    .sort((a, b) => a.days - b.days);
+  const upcoming = upcomingRenewals(subs, Infinity);
 
   const next = upcoming[0];
 

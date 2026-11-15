@@ -1,5 +1,6 @@
 import type { ChartTone, DonutSlice } from '@/types/chart';
 import type { Subscription } from '@/types/Subscription';
+import { toMonthlyAmount, inDisplayCurrency } from './subscription-stats';
 
 const categoryTone: Record<string, ChartTone> = {
   Productivity: 'chart-1',
@@ -7,13 +8,10 @@ const categoryTone: Record<string, ChartTone> = {
   Utilities: 'chart-3',
 };
 
-const toMonthly = (s: Subscription) =>
-  s.cycle === 'Yearly' ? Number(s.amount) / 12 : +s.amount;
-
 export function categorySlices(subs: Subscription[]): DonutSlice[] {
   const totals = new Map<string, number>();
-  for (const s of subs) {
-    totals.set(s.category, (totals.get(s.category) ?? 0) + toMonthly(s));
+  for (const s of inDisplayCurrency(subs)) {
+    totals.set(s.category, (totals.get(s.category) ?? 0) + toMonthlyAmount(s));
   }
 
   return [...totals.entries()]
