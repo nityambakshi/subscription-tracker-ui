@@ -1,10 +1,22 @@
-import { toneClasses, type DonutSlice } from '@/types/chart';
+import { toneClasses, type DonutSlice } from './chart';
 import { formatMoney } from '@/util/format';
+import { arcPath } from './donutPath';
 
 const SIZE = 112;
 const STROKE = 16;
 const RADIUS = (SIZE - STROKE) / 2; // 48, so the outer edge is 56
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+const TWO_PI = Math.PI * 2;
+
+function segmentsFor(start: number, end: number): [number, number][] {
+  if (end - start >= TWO_PI - 1e-9) {
+    const middle = start + Math.PI;
+    return [
+      [start, middle],
+      [middle, end],
+    ];
+  }
+  return [[start, end]];
+}
 
 type DonutChartProps = {
   slices: DonutSlice[];
@@ -21,18 +33,23 @@ export function DonutChart({
   const percent = (value: number) =>
     total > 0 ? Math.round((value / total) * 100) : 0;
 
-  const summary = slices
-    .map((s) => `${s.label} ${percent(s.value)}%`)
-    .join(', ');
+  const summaryParts: string[] = [];
+  for (const slice of slices) {
+    summaryParts.push(`${slice.label} ${percent(slice.value)}%`);
+  }
+  const summary = summaryParts.join(', ');
 
-  // Each slice starts where the previous one ended
-  let offset = 0;
-  const arcs = slices.map((s) => {
-    const length = total > 0 ? (s.value / total) * CIRCUMFERENCE : 0;
-    const arc = { slice: s, length, offset };
-    offset += length;
-    return arc;
-  });
+  let angle = -Math.PI / 2; // start at the top
+  const arcs: { slice: DonutSlice; start: number; end: number }[] = [];
+  for (const slice of slices) {
+    const start = angle;
+    const sliceAngle = total > 0 ? (slice.value / total) * TWO_PI : 0;
+    angle += sliceAngle;
+
+    if (angle > start) {
+      arcs.push({ slice, start, end: angle });
+    }
+  }
 
   return (
     <div className="flex items-center gap-5">
@@ -43,9 +60,7 @@ export function DonutChart({
           aria-label={
             total > 0 ? `Spending by category: ${summary}` : 'No spending yet'
           }
-          className="-rotate-90"
         >
-          {/* Track, shown when there's nothing to draw */}
           <circle
             cx={SIZE / 2}
             cy={SIZE / 2}
@@ -55,19 +70,15 @@ export function DonutChart({
             className="stroke-border"
           />
 
-          {arcs.map(({ slice, length, offset }) => (
-            <circle
-              key={slice.id}
-              cx={SIZE / 2}
-              cy={SIZE / 2}
-              r={RADIUS}
-              fill="none"
-              strokeWidth={STROKE}
-              strokeDasharray={`${length} ${CIRCUMFERENCE - length}`}
-              strokeDashoffset={-offset}
-              className={toneClasses[slice.tone].stroke}
-            />
-          ))}
+          {arcs.flatMap(({ slice, start, end }) =>
+            segmentsFor(start, end).map(([from, to], index) => (
+              <path
+                key={`${slice.id}-${index}`}
+                d={arcPath(from, to)}
+                className={toneClasses[slice.tone].fill}
+              />
+            ))
+          )}
         </svg>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center">
