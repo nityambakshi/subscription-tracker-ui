@@ -3,6 +3,7 @@ import type { NavItem } from '../../types/types';
 import { NavLink, useNavigate } from 'react-router';
 import { Button } from '../ui/Button';
 import { useLogout } from '@/hooks/auth-hooks';
+import BudgetCard from './BudgetCard';
 
 const sideNavOptions: NavItem[] = [
   { id: 'overview', label: 'Overview', to: '/' },
@@ -44,11 +45,8 @@ function Sidebar() {
         ))}
       </div>
 
-      <div className="flex flex-col gap-1 rounded-lg bg-surface-2 p-3">
-        <p className="text-label font-semibold">Monthly Budget</p>
-        <p className="text-small text-fg-muted">$92 of $180. 51% used</p>
-      </div>
-
+      <BudgetCard />
+      
       <Button
         variant="secondary"
         fullWidth

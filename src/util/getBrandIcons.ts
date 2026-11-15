@@ -1,5 +1,6 @@
 import type { BrandLogoDetails } from '@/types/brand-logo';
 import { BiLogoAdobe } from 'react-icons/bi';
+import { FcGoogle } from 'react-icons/fc';
 import { SiIcloud, SiNetflix, SiNotion, SiSpotify } from 'react-icons/si';
 
 export const iconsBySubscription: Record<string, BrandLogoDetails> = {
@@ -22,5 +23,9 @@ export const iconsBySubscription: Record<string, BrandLogoDetails> = {
   notion: {
     logo: SiNotion,
     color: 'currentColor',
+  },
+  google: {
+    logo: FcGoogle,
+    color: '#4285F4',
   },
 };

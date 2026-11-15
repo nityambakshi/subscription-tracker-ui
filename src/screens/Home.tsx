@@ -55,7 +55,7 @@ function Home() {
             <Icon size={32} color={brandColor} />
             <div className="flex flex-col">
               {renderTextTableCell(row.name)}
-              <p className="text-sm text-fg-muted">{row.cycle}</p>
+              <p className="text-small text-fg-muted">{row.cycle}</p>
             </div>
           </div>
         );
@@ -86,7 +86,7 @@ function Home() {
           <div className="flex flex-col">
             {renderTextTableCell(formatDate(row.renewsOn))}
             <span
-              className={`text-small ${days < 3 ? 'text-warning' : 'text-fg-muted'}`}
+              className={`text-small ${days <= 3 ? 'text-warning' : 'text-fg-muted'}`}
             >
               {formatRelativeDays(days)}
             </span>
