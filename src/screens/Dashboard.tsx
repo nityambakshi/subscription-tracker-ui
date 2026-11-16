@@ -20,9 +20,17 @@ type DashboardProps = {
   onSearchChange: (search: string) => void;
 };
 
+type Icon = {
+  icon: IconType;
+  color: string;
+};
+
 function Dashboard({ search, onSearchChange }: DashboardProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [Icon, setIcon] = useState<IconType>(() => LuStore);
+  const [Icon, setIcon] = useState<Icon>(() => ({
+    icon: LuStore,
+    color: 'currentColor',
+  }));
 
   const { greeting, day, date } = getDashboardDateInfo();
 
@@ -130,16 +138,18 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
           <div className="flex flex-col gap-3">
             <p className="text-body text-fg">Subscription name</p>
             <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
-              <Icon size={32} />
+              <Icon.icon size={32} color={Icon.color} />
               <Input
                 className="w-full"
                 type="text"
                 placeholder="e.g. Netflix"
                 onChange={(e) => {
-                  const icon =
-                    iconsBySubscription[findBrandKey(e.target.value)]?.logo ??
-                    LuStore;
-                  setIcon(() => icon);
+                  const brand =
+                    iconsBySubscription[findBrandKey(e.target.value)];
+                  setIcon(() => ({
+                    icon: brand?.logo ?? LuStore,
+                    color: brand?.color ?? 'currentColor',
+                  }));
                 }}
               />
             </div>
