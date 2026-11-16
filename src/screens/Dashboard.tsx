@@ -127,18 +127,23 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
         actions={dialogActions}
       >
         <div className="flex flex-col gap-4">
-          <Icon size={32} />
-          <Input
-            type="text"
-            label="Subscription name"
-            placeholder="e.g. Netflix"
-            onChange={(e) => {
-              const icon =
-                iconsBySubscription[findBrandKey(e.target.value)]?.logo ??
-                LuStore;
-              setIcon(() => icon);
-            }}
-          />
+          <div className="flex flex-col gap-3">
+            <p className="text-body text-fg">Subscription name</p>
+            <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
+              <Icon size={32} />
+              <Input
+                className="w-full"
+                type="text"
+                placeholder="e.g. Netflix"
+                onChange={(e) => {
+                  const icon =
+                    iconsBySubscription[findBrandKey(e.target.value)]?.logo ??
+                    LuStore;
+                  setIcon(() => icon);
+                }}
+              />
+            </div>
+          </div>
 
           <div className="flex gap-3">
             <div className="flex-1">
