@@ -25,7 +25,7 @@ function ButtonGroup({
   return (
     <div className="flex flex-col gap-1.5">
       {label && <div className="text-label font-medium text-fg">{label}</div>}
-      <div className="inline-flex rounded-md border border-border items-center shadow-md p-0.5">
+      <div className="inline-flex rounded-md border border-border items-center p-0.5">
         {buttons.map((button) => (
           <button
             key={button.id}

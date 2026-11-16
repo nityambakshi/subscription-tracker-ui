@@ -27,6 +27,15 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
 
   const stats = computeStats(subscriptions ?? []);
 
+  const dialogActions = (
+    <div className="flex justify-end gap-3">
+      <Button variant="secondary" onClick={() => setDialogOpen(false)}>
+        Cancel
+      </Button>
+      <Button onClick={() => setDialogOpen(false)}>Add subscription</Button>
+    </div>
+  );
+
   const statCards: StatCard[] = [
     {
       id: 'monthlySpend',
@@ -111,6 +120,7 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
         title="Add subscription"
+        actions={dialogActions}
       >
         <div className="flex flex-col gap-4">
           <Input
@@ -159,6 +169,8 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
             className="w-full"
           />
         </div>
+
+        <Input type="date" label="Renews on" placeholder="Select date" />
       </Dialog>
     </>
   );

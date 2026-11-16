@@ -1,14 +1,22 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 
 type DialogProps = {
   open: boolean;
   onClose: () => void;
   title: string;
   subtitle?: string;
-  children: React.ReactNode;
+  actions?: ReactNode;
+  children: ReactNode;
 };
 
-function Dialog({ open, onClose, title, subtitle, children }: DialogProps) {
+function Dialog({
+  open,
+  onClose,
+  title,
+  subtitle,
+  actions,
+  children,
+}: DialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -23,7 +31,7 @@ function Dialog({ open, onClose, title, subtitle, children }: DialogProps) {
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="fixed inset-0 m-auto h-fit w-full max-w-md rounded-xl border border-border bg-surface p-0 text-fg shadow-elevated backdrop:bg-black/50"
+      className="fixed inset-0 m-auto h-fit w-full max-w-lg rounded-xl border border-border bg-surface p-0 text-fg shadow-elevated backdrop:bg-black/50"
     >
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <div className="flex flex-col gap-1">
@@ -43,6 +51,12 @@ function Dialog({ open, onClose, title, subtitle, children }: DialogProps) {
       </div>
 
       <div className="px-6 py-5">{children}</div>
+
+      {actions && (
+        <footer className="flex justify-end px-6 py-3 border-t border-border">
+          {actions}
+        </footer>
+      )}
     </dialog>
   );
 }
