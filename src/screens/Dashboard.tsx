@@ -8,9 +8,12 @@ import { useMe } from '@/hooks/auth-hooks';
 import { useSubscriptions } from '@/hooks/subscription-hooks';
 import type { StatCard } from '@/types/types';
 import { formatDate, formatMoney, formatRelativeDays } from '@/util/format';
+import { findBrandKey, iconsBySubscription } from '@/util/getBrandIcons';
 import { getDashboardDateInfo } from '@/util/greeting';
 import { computeStats } from '@/util/subscription-stats';
 import { useState } from 'react';
+import type { IconType } from 'react-icons';
+import { LuStore } from 'react-icons/lu';
 
 type DashboardProps = {
   search: string;
@@ -19,6 +22,7 @@ type DashboardProps = {
 
 function Dashboard({ search, onSearchChange }: DashboardProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [Icon, setIcon] = useState<IconType>(LuStore as IconType);
 
   const { greeting, day, date } = getDashboardDateInfo();
 
@@ -123,10 +127,17 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
         actions={dialogActions}
       >
         <div className="flex flex-col gap-4">
+          <Icon size={32} />
           <Input
             type="text"
             label="Subscription name"
             placeholder="e.g. Netflix"
+            onChange={(e) => {
+              const icon =
+              iconsBySubscription[findBrandKey(e.target.value)]?.logo ??
+                LuStore;
+              setIcon(icon);
+            }}
           />
 
           <div className="flex gap-3">
