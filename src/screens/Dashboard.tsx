@@ -119,13 +119,13 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
             placeholder="e.g. Netflix"
           />
 
-          <div className="flex w-full gap-3">
+          <div className="flex gap-3">
             <div className="flex-1">
               <Input
                 type="number"
                 label="Amount"
                 placeholder="0.00"
-                className="w-full"
+                className="text-right"
               />
             </div>
             <Select

@@ -34,6 +34,7 @@ function Select({
         id={selectId}
         name={selectId}
         className={[
+          'h-9.5, text-body',
           'rounded-md border border-border bg-surface p-2 text-fg-muted appearance-none cursor-pointer',
           className,
         ].join(' ')}
