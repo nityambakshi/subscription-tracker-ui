@@ -22,7 +22,7 @@ type DashboardProps = {
 
 function Dashboard({ search, onSearchChange }: DashboardProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [Icon, setIcon] = useState<IconType>(LuStore as IconType);
+  const [Icon, setIcon] = useState<IconType>(() => LuStore);
 
   const { greeting, day, date } = getDashboardDateInfo();
 
@@ -134,9 +134,9 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
             placeholder="e.g. Netflix"
             onChange={(e) => {
               const icon =
-              iconsBySubscription[findBrandKey(e.target.value)]?.logo ??
+                iconsBySubscription[findBrandKey(e.target.value)]?.logo ??
                 LuStore;
-              setIcon(icon);
+              setIcon(() => icon);
             }}
           />
 
