@@ -1,12 +1,16 @@
 import { Button } from '@/components/ui/Button';
+import ButtonGroup from '@/components/ui/ButtonGroup';
 import { Card } from '@/components/ui/Card';
+import Dialog from '@/components/ui/Dialog';
 import { Input } from '@/components/ui/Input';
+import Select from '@/components/ui/Select';
 import { useMe } from '@/hooks/auth-hooks';
 import { useSubscriptions } from '@/hooks/subscription-hooks';
 import type { StatCard } from '@/types/types';
 import { formatDate, formatMoney, formatRelativeDays } from '@/util/format';
 import { getDashboardDateInfo } from '@/util/greeting';
 import { computeStats } from '@/util/subscription-stats';
+import { useState } from 'react';
 
 type DashboardProps = {
   search: string;
@@ -14,9 +18,13 @@ type DashboardProps = {
 };
 
 function Dashboard({ search, onSearchChange }: DashboardProps) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const { greeting, day, date } = getDashboardDateInfo();
+
   const { data: user } = useMe();
   const { data: subscriptions, isPending } = useSubscriptions();
+
   const stats = computeStats(subscriptions ?? []);
 
   const statCards: StatCard[] = [
@@ -75,7 +83,9 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
           />
-          <Button>+ Add subscription</Button>
+          <Button onClick={() => setDialogOpen(true)}>
+            + Add subscription
+          </Button>
         </div>
       </header>
 
@@ -96,6 +106,62 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
           </Card>
         ))}
       </div>
+
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        title="Add subscription"
+      >
+        <div className="flex flex-col gap-4">
+          <Input
+            type="text"
+            label="Subscription name"
+            placeholder="e.g. Netflix"
+          />
+
+          <div className="flex w-full gap-3">
+            <div className="flex-1">
+              <Input
+                type="number"
+                label="Amount"
+                placeholder="0.00"
+                className="w-full"
+              />
+            </div>
+            <Select
+              options={[
+                { id: 'inr', label: 'INR' },
+                { id: 'usd', label: 'USD' },
+              ]}
+              label="Currency"
+              placeholder="Select currency"
+              className="w-30"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 w-full">
+            <ButtonGroup
+              label="Billing cycle"
+              buttons={[
+                { id: 'monthly', label: 'Monthly', onClick: () => {} },
+                { id: 'yearly', label: 'Yearly', onClick: () => {} },
+              ]}
+            />
+          </div>
+
+          <Select
+            options={[
+              { id: 'entertainment', label: 'Entertainment' },
+              { id: 'productivity', label: 'Productivity' },
+              { id: 'utilities', label: 'Utilities' },
+              { id: 'other', label: 'Other' },
+            ]}
+            label="Category"
+            placeholder="Select category"
+            className="w-full"
+          />
+        </div>
+      </Dialog>
     </>
   );
 }
