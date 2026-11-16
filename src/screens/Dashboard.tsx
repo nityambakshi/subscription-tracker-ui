@@ -139,15 +139,13 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
             />
           </div>
 
-          <div className="flex items-center gap-2 w-full">
-            <ButtonGroup
-              label="Billing cycle"
-              buttons={[
-                { id: 'monthly', label: 'Monthly', onClick: () => {} },
-                { id: 'yearly', label: 'Yearly', onClick: () => {} },
-              ]}
-            />
-          </div>
+          <ButtonGroup
+            label="Billing cycle"
+            buttons={[
+              { id: 'monthly', label: 'Monthly', onClick: () => {} },
+              { id: 'yearly', label: 'Yearly', onClick: () => {} },
+            ]}
+          />
 
           <Select
             options={[

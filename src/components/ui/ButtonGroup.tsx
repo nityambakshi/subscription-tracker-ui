@@ -6,9 +6,15 @@ const inactiveClasses = 'bg-surface text-fg hover:bg-surface-2';
 type ButtonGroupProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   buttons: { id: string; label: string; onClick: () => void }[];
   label?: string;
+  className?: string;
 };
 
-function ButtonGroup({ buttons, label, ...props }: ButtonGroupProps) {
+function ButtonGroup({
+  buttons,
+  label,
+  className = '',
+  ...props
+}: ButtonGroupProps) {
   const [active, setActive] = useState<string | null>(buttons[0]?.id || null);
 
   const handleClick = (id: string) => {
@@ -25,12 +31,13 @@ function ButtonGroup({ buttons, label, ...props }: ButtonGroupProps) {
             key={button.id}
             onClick={() => handleClick(button.id)}
             className={[
-              'px-4 h-9.5 items-center justify-center rounded-md',
+              'px-4 h-9.5 items-center justify-center rounded-md w-full',
               'text-body font-medium transition-colors duration-fast',
               'disabled:cursor-not-allowed disabled:opacity-50',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               'cursor-pointer',
               active === button.id ? activeClasses : inactiveClasses,
+              className,
             ].join(' ')}
             {...props}
           >
