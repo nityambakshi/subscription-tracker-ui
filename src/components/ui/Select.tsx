@@ -22,7 +22,7 @@ function Select({ label, id, options, className = '', ...props }: SelectProps) {
       <select
         id={selectId}
         name={selectId}
-        className="h-9.5, text-body rounded-md border border-border bg-surface p-2 text-fg-muted appearance-none cursor-pointer focus:border-ring focus:ring-2 focus:ring-ring/25"
+        className="h-9.5 text-body rounded-md border border-border bg-surface p-2 text-fg-muted cursor-pointer focus:border-ring focus:ring-2 focus:ring-ring/25"
         {...props}
       >
         {options.map((option) => (

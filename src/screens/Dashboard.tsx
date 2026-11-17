@@ -27,7 +27,7 @@ type Icon = {
 
 function Dashboard({ search, onSearchChange }: DashboardProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [Icon, setIcon] = useState<Icon>(() => ({
+  const [brandIcon, setBrandIcon] = useState<Icon>(() => ({
     icon: LuStore,
     color: 'currentColor',
   }));
@@ -139,7 +139,7 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
           <div className="flex flex-col gap-3">
             <p className="text-body text-fg">Subscription name</p>
             <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
-              <Icon.icon size={32} color={Icon.color} />
+              <brandIcon.icon size={32} color={brandIcon.color} />
               <Input
                 className="w-full"
                 type="text"
@@ -147,7 +147,7 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
                 onChange={(e) => {
                   const brand =
                     iconsBySubscription[findBrandKey(e.target.value)];
-                  setIcon(() => ({
+                  setBrandIcon(() => ({
                     icon: brand?.logo ?? LuStore,
                     color: brand?.color ?? 'currentColor',
                   }));

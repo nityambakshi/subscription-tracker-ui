@@ -16,12 +16,7 @@ type ButtonGroupProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
 };
 
-function ButtonGroup({
-  buttons,
-  label,
-  className = '',
-  ...props
-}: ButtonGroupProps) {
+function ButtonGroup({ buttons, label, className = '' }: ButtonGroupProps) {
   const [active, setActive] = useState<string | null>(buttons[0]?.id || null);
 
   const handleClick = (id: string) => {
@@ -32,7 +27,7 @@ function ButtonGroup({
   return (
     <div className="flex flex-col gap-1.5">
       {label && <div className="text-label font-medium text-fg">{label}</div>}
-      <div className="inline-flex rounded-md border border-border items-center p-0.5">
+      <div className="inline-flex rounded-md border border-border p-[3px] items-stretch">
         {buttons.map((button) => (
           <button
             type={button.type}
@@ -41,7 +36,7 @@ function ButtonGroup({
             aria-label={button.label}
             onClick={() => handleClick(button.id)}
             className={[
-              'px-4 h-9.5 items-center justify-center rounded-md w-full',
+              'px-4 h-full items-center justify-center rounded-sm',
               'text-body font-medium transition-colors duration-fast',
               'disabled:cursor-not-allowed disabled:opacity-50',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
@@ -49,7 +44,6 @@ function ButtonGroup({
               active === button.id ? activeClasses : inactiveClasses,
               className,
             ].join(' ')}
-            {...props}
           >
             {button.label}
           </button>
