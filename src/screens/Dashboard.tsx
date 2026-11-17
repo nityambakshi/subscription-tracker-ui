@@ -137,10 +137,20 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3">
-            <p className="text-body text-fg">Subscription name</p>
+            <p
+              id="subscription-name"
+              className="text-label font-medium text-fg"
+            >
+              Subscription name
+            </p>
             <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
-              <brandIcon.icon size={32} color={brandIcon.color} />
+              <brandIcon.icon
+                size={32}
+                color={brandIcon.color}
+                aria-hidden="true"
+              />
               <Input
+                aria-labelledby="subscription-name"
                 className="w-full"
                 type="text"
                 placeholder="e.g. Netflix"
