@@ -133,6 +133,7 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
         onClose={() => setDialogOpen(false)}
         title="Add subscription"
         actions={dialogActions}
+        id="add-subscription"
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3">
@@ -165,12 +166,12 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
               />
             </div>
             <Select
+              id="currency-select"
               options={[
                 { id: 'inr', label: 'INR' },
                 { id: 'usd', label: 'USD' },
               ]}
               label="Currency"
-              placeholder="Select currency"
               className="w-30"
             />
           </div>
@@ -178,12 +179,23 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
           <ButtonGroup
             label="Billing cycle"
             buttons={[
-              { id: 'monthly', label: 'Monthly', onClick: () => {} },
-              { id: 'yearly', label: 'Yearly', onClick: () => {} },
+              {
+                id: 'monthly',
+                label: 'Monthly',
+                onClick: () => {},
+                type: 'button',
+              },
+              {
+                id: 'yearly',
+                label: 'Yearly',
+                onClick: () => {},
+                type: 'button',
+              },
             ]}
           />
 
           <Select
+            id="category-select"
             options={[
               { id: 'entertainment', label: 'Entertainment' },
               { id: 'productivity', label: 'Productivity' },
@@ -191,12 +203,11 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
               { id: 'other', label: 'Other' },
             ]}
             label="Category"
-            placeholder="Select category"
             className="w-full"
           />
-        </div>
 
-        <Input type="date" label="Renews on" placeholder="Select date" />
+          <Input type="date" label="Renews on" placeholder="Select date" />
+        </div>
       </Dialog>
     </>
   );

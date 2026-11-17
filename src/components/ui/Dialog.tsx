@@ -1,6 +1,12 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import {
+  useEffect,
+  useId,
+  useRef,
+  type DialogHTMLAttributes,
+  type ReactNode,
+} from 'react';
 
-type DialogProps = {
+type DialogProps = DialogHTMLAttributes<HTMLDialogElement> & {
   open: boolean;
   onClose: () => void;
   title: string;
@@ -14,10 +20,13 @@ function Dialog({
   onClose,
   title,
   subtitle,
+  id,
   actions,
   children,
 }: DialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const autoId = useId();
+  const dialogId = id ?? autoId;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -31,11 +40,11 @@ function Dialog({
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="fixed inset-0 m-auto h-fit w-full max-w-lg rounded-xl border border-border bg-surface p-0 text-fg shadow-elevated backdrop:bg-black/50"
+      className="fixed inset-0 m-auto h-fit w-full max-w-md rounded-xl border border-border bg-surface p-0 text-fg shadow-elevated backdrop:bg-black/50"
     >
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <div className="flex flex-col gap-1">
-          <h2 id={title} className="font-semibold text-body">
+          <h2 id={`${dialogId}-title`} className="font-semibold text-body">
             {title}
           </h2>
           {subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}
