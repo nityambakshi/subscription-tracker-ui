@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import ButtonGroup from '@/components/ui/ButtonGroup';
 import { Card } from '@/components/ui/Card';
 import Dialog from '@/components/ui/Dialog';
+import FormField from '@/components/ui/FormField';
 import { Input } from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import { useMe } from '@/hooks/auth-hooks';
@@ -168,12 +169,13 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
 
           <div className="flex gap-3">
             <div className="flex-1">
-              <Input
-                type="number"
-                label="Amount"
-                placeholder="0.00"
-                className="text-right"
-              />
+              <FormField label="Amount">
+                <Input
+                  type="number"
+                  placeholder="0.00"
+                  className="text-right"
+                />
+              </FormField>
             </div>
             <Select
               id="currency-select"
