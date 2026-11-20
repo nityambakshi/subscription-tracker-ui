@@ -1,4 +1,4 @@
-import type { Subscription } from '@/types/Subscription';
+import type { Subscription } from '../types';
 import { upcomingRenewals } from './upcoming-renewals';
 
 // Totals are shown in one currency until conversion is added

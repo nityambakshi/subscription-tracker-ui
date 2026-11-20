@@ -1,5 +1,5 @@
 import type { ChartTone, DonutSlice } from '@/components/charts/chart';
-import type { Subscription } from '@/types/Subscription';
+import type { Subscription } from '../types';
 import { toMonthlyAmount, inDisplayCurrency } from './subscription-stats';
 
 const categoryTone: Record<string, ChartTone> = {

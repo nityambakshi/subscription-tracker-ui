@@ -4,13 +4,14 @@ import Dialog, { DialogBody, DialogFooter } from '@/components/ui/Dialog';
 import { FormField } from '@/components/ui/FormField';
 import { Input } from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
-import { useAddSubscription } from '../hooks';
+import { useAddSubscription, useSubscriptions } from '../hooks';
 import { addSubscriptionSchema, type AddSubscriptionForm } from '../schema';
 import type { Subscription } from '../types';
 import { findBrandKey, iconsBySubscription } from '../utils/brand-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm, useWatch, type Control } from 'react-hook-form';
 import { LuStore } from 'react-icons/lu';
+import { useState } from 'react';
 
 const currencyOptions = [
   { id: 'inr', label: 'INR' },
@@ -46,7 +47,10 @@ function AddSubscriptionDialog({ open, onClose }: AddSubscriptionDialogProps) {
 }
 
 function AddSubscriptionFormContent({ onClose }: { onClose: () => void }) {
-  const { mutate: addSubscription } = useAddSubscription();
+  const [error, setError] = useState('');
+  const { mutateAsync: addSubscription } = useAddSubscription();
+  const { data: subscriptionsList } = useSubscriptions();
+
   const {
     register,
     control,
@@ -63,6 +67,18 @@ function AddSubscriptionFormContent({ onClose }: { onClose: () => void }) {
   });
 
   const onSubmit = async (formData: AddSubscriptionForm) => {
+    const subscriptionName = formData.name.trim().toLowerCase();
+    setError('');
+
+    if (
+      subscriptionsList?.some(
+        (subscription) => subscription.name.toLowerCase() === subscriptionName
+      )
+    ) {
+      setError(`Subscription details for ${subscriptionName} already added.`);
+      return;
+    }
+
     const payload: Omit<Subscription, 'id'> = {
       name: formData.name.trim(),
       amount: formData.amount,
@@ -73,8 +89,13 @@ function AddSubscriptionFormContent({ onClose }: { onClose: () => void }) {
       logoKey: findBrandKey(formData.name),
       reminderOn: true,
     };
-    await addSubscription(payload);
-    onClose();
+
+    try {
+      await addSubscription(payload);
+      onClose();
+    } catch {
+      setError('Could not add this subscription. Please try again.');
+    }
   };
 
   return (
@@ -165,6 +186,8 @@ function AddSubscriptionFormContent({ onClose }: { onClose: () => void }) {
             />
           </FormField>
         </div>
+
+        <p className="text-small text-danger">{error}</p>
       </DialogBody>
 
       <DialogFooter>

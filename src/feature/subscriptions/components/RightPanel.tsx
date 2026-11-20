@@ -2,9 +2,9 @@ import { DonutChart } from '../../../components/charts/DonutChart';
 import { SectionHeader } from '../../../components/ui/SectionHeader';
 import { Panel } from '../../../components/layout/Panel';
 import { categorySlices } from '@/feature/subscriptions/utils/category-slices';
-import type { Subscription } from '@/types/Subscription';
-import { upcomingRenewals } from '@/feature/subscriptions/utils/upcoming-renewals';
-import { DISPLAY_CURRENCY } from '@/feature/subscriptions/utils/subscription-stats';
+import type { Subscription } from '../types';
+import { upcomingRenewals } from '../utils/upcoming-renewals';
+import { DISPLAY_CURRENCY } from '../utils/subscription-stats';
 import { UpcomingRenewals } from './UpcomingRenewals';
 
 type RightPanelProps = {

@@ -1,4 +1,20 @@
-import type { DataTableProps } from '@/types/types';
+import type { ReactNode } from 'react';
+
+export type Column<T> = {
+  id: string;
+  header: string;
+  render?: (row: T) => ReactNode;
+  align?: 'left' | 'right';
+  className?: string;
+};
+type DataTableProps<T> = {
+  rows: T[];
+  columns: Column<T>[];
+  getRowId: (row: T) => string;
+  onRowClick?: (row: T) => void;
+  loading?: boolean;
+  emptyMessage?: string;
+};
 
 function DataTable<T>({
   rows,

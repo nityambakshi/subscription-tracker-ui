@@ -1,4 +1,4 @@
-import type { BrandLogoDetails } from '@/types/brand-logo';
+import type { BrandLogoDetails } from '../types';
 import {
   BiLogoAdobe,
   BiLogoAmazon,

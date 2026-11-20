@@ -1,14 +1,16 @@
-import type { Category, Column } from '@/types/types';
 import { useState } from 'react';
-import DataTable from '@/components/ui/DataTable';
+import DataTable, { type Column } from '@/components/ui/DataTable';
+import { Chip } from '@/components/ui/Chip';
+import { Toggle } from '@/components/ui/Toggle';
 import Dashboard from '../feature/subscriptions/components/Dashboard';
 import { CategoryFilter } from '@/feature/subscriptions/components/CategoryFilter';
 import { RightPanel } from '@/feature/subscriptions/components/RightPanel';
 import { iconsBySubscription } from '@/feature/subscriptions/utils/brand-icons';
-import { Chip } from '@/components/ui/Chip';
-import { Toggle } from '@/components/ui/Toggle';
-import type { Subscription } from '@/types/Subscription';
-import { useSetReminder, useSubscriptions } from '@/feature/subscriptions/hooks';
+import type { Category, Subscription } from '@/feature/subscriptions/types';
+import {
+  useSetReminder,
+  useSubscriptions,
+} from '@/feature/subscriptions/hooks';
 import { LuStore } from 'react-icons/lu';
 import {
   daysUntil,

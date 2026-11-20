@@ -1,4 +1,8 @@
-import type { DashboardDateInfo } from '@/types/types';
+export type DashboardDateInfo = {
+  greeting: string;
+  day: string;
+  date: string;
+};
 
 export function getDashboardDateInfo(): DashboardDateInfo {
   const now = new Date();
