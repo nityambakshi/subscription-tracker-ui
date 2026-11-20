@@ -3,7 +3,7 @@ import type { NavItem } from '../../types/types';
 import { NavLink, useNavigate } from 'react-router';
 import { Button } from '../ui/Button';
 import { useLogout } from '@/hooks/auth-hooks';
-import BudgetCard from './BudgetCard';
+import BudgetCard from '../../feature/subscriptions/components/BudgetCard';
 
 const sideNavOptions: NavItem[] = [
   { id: 'overview', label: 'Overview', to: '/' },
@@ -46,7 +46,7 @@ function Sidebar() {
       </div>
 
       <BudgetCard />
-      
+
       <Button
         variant="secondary"
         fullWidth

@@ -1,11 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/api/query-keys';
-import {
-  authApi,
-  type LoginRequest,
-  type SignupRequest,
-  type User,
-} from '@/api/auth';
+import { authApi } from './api';
+import type { LoginRequest, SignupRequest, User } from './types';
 import { isAxiosError } from 'axios';
 
 export function useLogin() {

@@ -1,6 +1,6 @@
 import { queryKeys } from '@/api/query-keys';
-import { subscriptionsApi } from '@/api/subscriptions';
-import type { Subscription } from '@/types/Subscription';
+import { subscriptionsApi } from './api';
+import type { Subscription } from './types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export function useSubscriptions() {
@@ -46,5 +46,17 @@ export function useSetReminder() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.subscriptions.all });
     },
+  });
+}
+
+export function useAddSubscription() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: subscriptionsApi.add,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.subscriptions.list(),
+      }),
   });
 }

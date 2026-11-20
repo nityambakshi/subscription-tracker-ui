@@ -1,4 +1,3 @@
-// src/components/subscriptions/NameCell.tsx
 type NameCellProps = {
   name: string;
   cycle: 'monthly' | 'yearly';

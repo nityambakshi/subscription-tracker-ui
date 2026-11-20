@@ -9,9 +9,12 @@ import { useMe } from '@/hooks/auth-hooks';
 import { useSubscriptions } from '@/hooks/subscription-hooks';
 import type { StatCard } from '@/types/types';
 import { formatDate, formatMoney, formatRelativeDays } from '@/util/format';
-import { findBrandKey, iconsBySubscription } from '@/util/getBrandIcons';
+import {
+  findBrandKey,
+  iconsBySubscription,
+} from '@/feature/subscriptions/utils/brand-icons';
 import { getDashboardDateInfo } from '@/util/greeting';
-import { computeStats } from '@/util/subscription-stats';
+import { computeStats } from '@/feature/subscriptions/utils/subscription-stats';
 import { useState } from 'react';
 import type { IconType } from 'react-icons';
 import { LuStore } from 'react-icons/lu';

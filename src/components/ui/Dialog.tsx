@@ -11,19 +11,10 @@ type DialogProps = DialogHTMLAttributes<HTMLDialogElement> & {
   onClose: () => void;
   title: string;
   subtitle?: string;
-  actions?: ReactNode;
   children: ReactNode;
 };
 
-function Dialog({
-  open,
-  onClose,
-  title,
-  subtitle,
-  id,
-  actions,
-  children,
-}: DialogProps) {
+function Dialog({ open, onClose, title, subtitle, id, children }: DialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const autoId = useId();
   const dialogId = id ?? autoId;
@@ -55,20 +46,26 @@ function Dialog({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="rounded-md px-2 text-heading leading-none text-fg-muted hover:bg-surface-2 hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+          className="cursor-pointer rounded-md px-2 text-heading leading-none text-fg-muted hover:bg-surface-2 hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           ×
         </button>
       </div>
 
-      <div className="px-6 py-5">{children}</div>
-
-      {actions && (
-        <footer className="flex justify-end px-6 py-3 border-t border-border">
-          {actions}
-        </footer>
-      )}
+      {open && children}
     </dialog>
+  );
+}
+
+export function DialogBody({ children }: { children: ReactNode }) {
+  return <div className="px-6 py-5">{children}</div>;
+}
+
+export function DialogFooter({ children }: { children: ReactNode }) {
+  return (
+    <footer className="flex justify-end gap-3 border-t border-border px-6 py-3">
+      {children}
+    </footer>
   );
 }
 

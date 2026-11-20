@@ -1,37 +1,70 @@
+import { useId, type ReactNode } from 'react';
+import { FormFieldContext } from '@/components/ui/form-field-context';
 
-import React from "react";
-
-interface FormFieldProps {
+type FormFieldProps = {
+  id?: string;
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
   error?: string;
+  hint?: string;
   required?: boolean;
+  labelAction?: ReactNode;
   className?: string;
-}
+};
 
-const FormField: React.FC<FormFieldProps> = ({
+export function FormField({
+  id,
   label,
   children,
   error,
+  hint,
   required = false,
-  className = "",
-}) => {
+  labelAction,
+  className = '',
+}: FormFieldProps) {
+  const autoId = useId();
+  const fieldId = id ?? autoId;
+  const labelId = `${fieldId}-label`;
+  const message = error ?? hint;
+  const messageId = message ? `${fieldId}-message` : undefined;
+
   return (
-    <div className={`flex flex-col gap-1.5 w-full ${className}`}>
-      <label className="flex gap-1 text-body text-fg">
-        {label}
-        {required && <span className="text-danger">*</span>}
-      </label>
+    <FormFieldContext.Provider
+      value={{ id: fieldId, labelId, error, describedBy: messageId }}
+    >
+      <div className={`flex w-full flex-col gap-1.5 ${className}`}>
+        <div className="flex items-center justify-between gap-2">
+          <label
+            id={labelId}
+            htmlFor={fieldId}
+            className="text-label font-medium text-fg"
+          >
+            {label}
+            {required && (
+              <span className="text-danger" aria-hidden="true">
+                {' '}
+                *
+              </span>
+            )}
+          </label>
+          {labelAction}
+        </div>
 
-      <div className="w-full">
         {children}
-      </div>
 
-      {error && (
-        <span className="text-small text-danger">{error}</span>
-      )}
-    </div>
+        {message && (
+          <p
+            id={messageId}
+            className={
+              error ? 'text-small text-danger' : 'text-small text-fg-muted'
+            }
+          >
+            {message}
+          </p>
+        )}
+      </div>
+    </FormFieldContext.Provider>
   );
-};
+}
 
 export default FormField;

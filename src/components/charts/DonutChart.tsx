@@ -1,6 +1,6 @@
 import { toneClasses, type DonutSlice } from './chart';
-import { formatMoney } from '@/util/format';
-import { arcPath } from './donutPath';
+import { formatMoney } from '@/lib/format';
+import { arcPath } from './donut-path';
 
 const SIZE = 112;
 const STROKE = 16;

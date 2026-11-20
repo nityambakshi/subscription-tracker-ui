@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router';
-import { useMe } from '@/hooks/auth-hooks';
+import { useMe } from '@/feature/auth/hooks';
 
 // For pages that need a login (the app layout)
 export function RequireAuth() {

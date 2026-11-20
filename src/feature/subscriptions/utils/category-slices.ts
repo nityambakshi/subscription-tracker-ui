@@ -1,4 +1,4 @@
-import type { ChartTone, DonutSlice } from '@/types/chart';
+import type { ChartTone, DonutSlice } from '@/components/charts/chart';
 import type { Subscription } from '@/types/Subscription';
 import { toMonthlyAmount, inDisplayCurrency } from './subscription-stats';
 

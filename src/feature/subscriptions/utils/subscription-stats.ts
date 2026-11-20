@@ -1,5 +1,5 @@
 import type { Subscription } from '@/types/Subscription';
-import { upcomingRenewals } from './upcomingRenewals';
+import { upcomingRenewals } from './upcoming-renewals';
 
 // Totals are shown in one currency until conversion is added
 export const DISPLAY_CURRENCY = 'INR';

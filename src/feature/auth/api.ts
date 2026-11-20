@@ -1,21 +1,5 @@
-import { api } from './client';
-
-export type User = {
-  userId?: string;
-  username: string;
-  fullName: string;
-};
-
-export type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-export type SignupRequest = {
-  fullName: string;
-  email: string;
-  password: string;
-};
+import { api } from '@/api/client';
+import type { LoginRequest, SignupRequest, User } from './types';
 
 export const authApi = {
   login: (body: LoginRequest) =>

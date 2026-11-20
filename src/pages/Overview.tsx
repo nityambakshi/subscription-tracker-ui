@@ -1,23 +1,23 @@
 import type { Category, Column } from '@/types/types';
 import { useState } from 'react';
-import DataTable from '@/components/layout/DataTable';
-import Dashboard from './Dashboard';
-import { CategoryFilter } from '@/components/layout/CategoryFilter';
-import { RightPanel } from '@/components/layout/RightPanel';
-import { iconsBySubscription } from '@/util/getBrandIcons';
+import DataTable from '@/components/ui/DataTable';
+import Dashboard from '../feature/subscriptions/components/Dashboard';
+import { CategoryFilter } from '@/feature/subscriptions/components/CategoryFilter';
+import { RightPanel } from '@/feature/subscriptions/components/RightPanel';
+import { iconsBySubscription } from '@/feature/subscriptions/utils/brand-icons';
 import { Chip } from '@/components/ui/Chip';
 import { Toggle } from '@/components/ui/Toggle';
 import type { Subscription } from '@/types/Subscription';
-import { useSetReminder, useSubscriptions } from '@/hooks/subscription-hooks';
+import { useSetReminder, useSubscriptions } from '@/feature/subscriptions/hooks';
 import { LuStore } from 'react-icons/lu';
 import {
   daysUntil,
   formatDate,
   formatMoney,
   formatRelativeDays,
-} from '@/util/format';
+} from '@/lib/format';
 
-function Home() {
+function Overview() {
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState<Category>('All');
   const {
@@ -146,4 +146,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Overview;
