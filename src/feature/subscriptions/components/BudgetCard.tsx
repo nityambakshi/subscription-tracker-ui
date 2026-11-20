@@ -1,7 +1,7 @@
 import { useSubscriptions } from '../hooks';
 import { computeStats } from '../utils/subscription-stats';
 import { Card } from '@/components/ui/Card';
-import { formatMoney } from '@/util/format';
+import { formatMoney } from '@/lib/format';
 
 const MONTHLY_BUDGET = 5000;
 

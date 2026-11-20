@@ -1,9 +1,14 @@
 import { Panel } from './Panel';
-import type { NavItem } from '../../types/types';
 import { NavLink, useNavigate } from 'react-router';
 import { Button } from '../ui/Button';
-import { useLogout } from '@/hooks/auth-hooks';
+import { useLogout } from '@/feature/auth/hooks';
 import BudgetCard from '../../feature/subscriptions/components/BudgetCard';
+
+type NavItem = {
+  id: string;
+  label: string;
+  to: string;
+};
 
 const sideNavOptions: NavItem[] = [
   { id: 'overview', label: 'Overview', to: '/' },
