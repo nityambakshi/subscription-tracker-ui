@@ -1,5 +1,5 @@
-import type { Subscription } from '@/types/Subscription';
-import { daysUntil } from '@/util/format';
+import type { Subscription } from '../types';
+import { daysUntil } from '@/lib/format';
 
 export function upcomingRenewals(subs: Subscription[], withinDays: number) {
   return subs
