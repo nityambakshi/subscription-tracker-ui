@@ -1,5 +1,5 @@
-import type { Subscription } from '@/types/Subscription';
-import { formatMoney, parseIsoDate } from '@/util/format';
+import type { Subscription } from '../types';
+import { formatMoney, parseIsoDate } from '@/lib/format';
 
 type Item = { sub: Subscription; days: number };
 

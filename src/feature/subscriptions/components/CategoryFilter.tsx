@@ -1,6 +1,6 @@
 import { Chip } from '@/components/ui/Chip';
-import { categories } from '@/constants/mock-constants';
-import type { Category } from '@/types/types';
+import { categories } from '../constants';
+import type { Category } from '../types';
 
 type Props = {
   value: Category;

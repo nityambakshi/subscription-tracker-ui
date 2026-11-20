@@ -1,56 +1,28 @@
 import { Button } from '@/components/ui/Button';
-import ButtonGroup from '@/components/ui/ButtonGroup';
 import { Card } from '@/components/ui/Card';
-import Dialog from '@/components/ui/Dialog';
-import FormField from '@/components/ui/FormField';
 import { Input } from '@/components/ui/Input';
-import Select from '@/components/ui/Select';
-import { useMe } from '@/hooks/auth-hooks';
-import { useSubscriptions } from '@/hooks/subscription-hooks';
-import type { StatCard } from '@/types/types';
-import { formatDate, formatMoney, formatRelativeDays } from '@/util/format';
-import {
-  findBrandKey,
-  iconsBySubscription,
-} from '@/feature/subscriptions/utils/brand-icons';
-import { getDashboardDateInfo } from '@/util/greeting';
+import { useMe } from '@/feature/auth/hooks';
+import { useSubscriptions } from '../hooks';
+import type { StatCard } from '../types';
+import { formatDate, formatMoney, formatRelativeDays } from '@/lib/format';
+import { getDashboardDateInfo } from '@/lib/greeting';
 import { computeStats } from '@/feature/subscriptions/utils/subscription-stats';
 import { useState } from 'react';
-import type { IconType } from 'react-icons';
-import { LuStore } from 'react-icons/lu';
+import AddSubscriptionDialog from './AddSubscriptionDialog';
 
 type DashboardProps = {
   search: string;
   onSearchChange: (search: string) => void;
 };
 
-type Icon = {
-  icon: IconType;
-  color: string;
-};
-
 function Dashboard({ search, onSearchChange }: DashboardProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [brandIcon, setBrandIcon] = useState<Icon>(() => ({
-    icon: LuStore,
-    color: 'currentColor',
-  }));
-
   const { greeting, day, date } = getDashboardDateInfo();
 
   const { data: user } = useMe();
   const { data: subscriptions, isPending } = useSubscriptions();
 
   const stats = computeStats(subscriptions ?? []);
-
-  const dialogActions = (
-    <div className="flex justify-end gap-3">
-      <Button variant="secondary" onClick={() => setDialogOpen(false)}>
-        Cancel
-      </Button>
-      <Button onClick={() => setDialogOpen(false)}>Add subscription</Button>
-    </div>
-  );
 
   const statCards: StatCard[] = [
     {
@@ -132,98 +104,10 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
         ))}
       </div>
 
-      <Dialog
+      <AddSubscriptionDialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        title="Add subscription"
-        actions={dialogActions}
-        id="add-subscription"
-      >
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-3">
-            <p
-              id="subscription-name"
-              className="text-label font-medium text-fg"
-            >
-              Subscription name
-            </p>
-            <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
-              <brandIcon.icon
-                size={32}
-                color={brandIcon.color}
-                aria-hidden="true"
-              />
-              <Input
-                aria-labelledby="subscription-name"
-                className="w-full"
-                type="text"
-                placeholder="e.g. Netflix"
-                onChange={(e) => {
-                  const brand =
-                    iconsBySubscription[findBrandKey(e.target.value)];
-                  setBrandIcon(() => ({
-                    icon: brand?.logo ?? LuStore,
-                    color: brand?.color ?? 'currentColor',
-                  }));
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <FormField label="Amount">
-                <Input
-                  type="number"
-                  placeholder="0.00"
-                  className="text-right"
-                />
-              </FormField>
-            </div>
-            <Select
-              id="currency-select"
-              options={[
-                { id: 'inr', label: 'INR' },
-                { id: 'usd', label: 'USD' },
-              ]}
-              label="Currency"
-              className="w-30"
-            />
-          </div>
-
-          <ButtonGroup
-            label="Billing cycle"
-            buttons={[
-              {
-                id: 'monthly',
-                label: 'Monthly',
-                onClick: () => {},
-                type: 'button',
-              },
-              {
-                id: 'yearly',
-                label: 'Yearly',
-                onClick: () => {},
-                type: 'button',
-              },
-            ]}
-          />
-
-          <Select
-            id="category-select"
-            options={[
-              { id: 'entertainment', label: 'Entertainment' },
-              { id: 'productivity', label: 'Productivity' },
-              { id: 'utilities', label: 'Utilities' },
-              { id: 'other', label: 'Other' },
-            ]}
-            label="Category"
-            className="w-full"
-          />
-
-          <Input type="date" label="Renews on" placeholder="Select date" />
-        </div>
-      </Dialog>
+      />
     </>
   );
 }
