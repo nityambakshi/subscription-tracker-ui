@@ -1,10 +1,11 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-type Variant = 'primary' | 'secondary';
+type Variant = 'primary' | 'secondary' | 'danger';
 
 const variantClasses: Record<Variant, string> = {
   primary: 'bg-inverse text-inverse-fg hover:opacity-90',
   secondary: 'border border-border bg-surface text-fg hover:bg-surface-2',
+  danger: 'bg-danger-soft text-danger hover:bg-danger-soft/60',
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

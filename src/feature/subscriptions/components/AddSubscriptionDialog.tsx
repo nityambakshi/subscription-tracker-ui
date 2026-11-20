@@ -185,9 +185,9 @@ function AddSubscriptionFormContent({ onClose }: { onClose: () => void }) {
               type="date"
             />
           </FormField>
-        </div>
 
-        <p className="text-small text-danger">{error}</p>
+          <p className="text-small text-danger">{error}</p>
+        </div>
       </DialogBody>
 
       <DialogFooter>

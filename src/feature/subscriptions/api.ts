@@ -9,4 +9,6 @@ export const subscriptionsApi = {
       .then((r) => r.data),
   add: (subscription: Omit<Subscription, 'id'>) =>
     api.post<Subscription>('/subscriptions', subscription).then((r) => r.data),
+  delete: (subscriptionId: string) =>
+    api.delete<void>(`/subscriptions/${subscriptionId}`).then((r) => r.data),
 };

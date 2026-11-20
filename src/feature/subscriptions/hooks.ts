@@ -60,3 +60,13 @@ export function useAddSubscription() {
       }),
   });
 }
+
+export function useDeleteSubscription() {
+  const queryClient = useQueryClient();
+  const listKey = queryKeys.subscriptions.list();
+
+  return useMutation({
+    mutationFn: subscriptionsApi.delete,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: listKey }),
+  });
+}

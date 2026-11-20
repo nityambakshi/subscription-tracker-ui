@@ -11,24 +11,28 @@ import {
   useSetReminder,
   useSubscriptions,
 } from '@/feature/subscriptions/hooks';
-import { LuStore } from 'react-icons/lu';
+import { LuStore, LuTrash2 } from 'react-icons/lu';
 import {
   daysUntil,
   formatDate,
   formatMoney,
   formatRelativeDays,
 } from '@/lib/format';
+import DeleteConfirmationDialog from '@/feature/subscriptions/components/DeleteConfirmationDialog';
 
 function Overview() {
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState<Category>('All');
+  const [row, setRow] = useState<Subscription | undefined>(undefined);
+  const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =
+    useState(false);
+
   const {
     data: subscriptionData,
     isLoading: isSubLoading,
     isError: isSubError,
     error: subError,
   } = useSubscriptions();
-
   const { mutate: setReminder } = useSetReminder();
 
   const handleReminderToggle = (row: Subscription, checked: boolean) => {
@@ -50,6 +54,11 @@ function Overview() {
   const renderTextTableCell = (text: string) => (
     <p className="text-body text-fg font-medium">{text}</p>
   );
+
+  const handleDeleteSubscription = async (subscription: Subscription) => {
+    setRow(subscription);
+    setDeleteConfirmationDialogOpen(true);
+  };
 
   const subscriptionTableColumns: Column<Subscription>[] = [
     {
@@ -105,14 +114,23 @@ function Overview() {
       },
     },
     {
-      id: 'reminder',
-      header: 'Reminder',
+      id: 'actions',
+      header: 'Actions',
       render: (row) => {
         return (
-          <Toggle
-            checked={row.reminderOn}
-            onChange={(checked) => handleReminderToggle(row, checked)}
-          />
+          <div className="flex items-center gap-4 w-10">
+            <Toggle
+              checked={row.reminderOn}
+              onChange={(checked) => handleReminderToggle(row, checked)}
+            />
+            <div
+              className="rounded-full p-2 hover:bg-warning-soft text-fg-muted hover:text-danger transition-colors duration-fast cursor-pointer"
+              role="button"
+              onClick={() => handleDeleteSubscription(row)}
+            >
+              <LuTrash2 size={16} />
+            </div>
+          </div>
         );
       },
     },
@@ -144,6 +162,12 @@ function Overview() {
       </div>
 
       {!isSubLoading && <RightPanel sliceData={subscriptionData ?? []} />}
+
+      <DeleteConfirmationDialog
+        open={deleteConfirmationDialogOpen}
+        onClose={() => setDeleteConfirmationDialogOpen(false)}
+        subscription={row ?? ({} as Subscription)}
+      />
     </section>
   );
 }
