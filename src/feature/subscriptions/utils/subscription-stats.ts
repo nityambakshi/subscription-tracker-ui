@@ -2,7 +2,7 @@ import type { Subscription } from '../types';
 import { upcomingRenewals } from './upcoming-renewals';
 
 // Totals are shown in one currency until conversion is added
-export const DISPLAY_CURRENCY = 'INR';
+export const DISPLAY_CURRENCY = 'inr';
 
 // A yearly plan counts as one twelfth per month
 export function toMonthlyAmount(sub: Subscription): number {

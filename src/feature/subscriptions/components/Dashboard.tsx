@@ -1,14 +1,11 @@
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
 import { useMe } from '@/feature/auth/hooks';
 import { useSubscriptions } from '../hooks';
 import type { StatCard } from '../types';
 import { formatDate, formatMoney, formatRelativeDays } from '@/lib/format';
 import { getDashboardDateInfo } from '@/lib/greeting';
 import { computeStats } from '@/feature/subscriptions/utils/subscription-stats';
-import { useState } from 'react';
-import AddSubscriptionDialog from './AddSubscriptionDialog';
+import AppHeader from '@/components/layout/AppHeader';
 
 type DashboardProps = {
   search: string;
@@ -16,7 +13,6 @@ type DashboardProps = {
 };
 
 function Dashboard({ search, onSearchChange }: DashboardProps) {
-  const [dialogOpen, setDialogOpen] = useState(false);
   const { greeting, day, date } = getDashboardDateInfo();
 
   const { data: user } = useMe();
@@ -62,29 +58,12 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
 
   return (
     <>
-      <header className="flex items-center justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-heading font-semibold tracking-heading text-fg">
-            {greeting} {user?.fullName?.split(' ')[0] ?? ''}
-          </h1>
-          <p className="text-body text-fg-muted">
-            {day}, {date}
-          </p>
-        </div>
-        <div className="flex items-center gap-2.5">
-          <Input
-            type="search"
-            className="w-55"
-            aria-label="Search subscriptions"
-            placeholder="Search subscriptions"
-            value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
-          />
-          <Button onClick={() => setDialogOpen(true)}>
-            + Add subscription
-          </Button>
-        </div>
-      </header>
+      <AppHeader
+        message={`${greeting} ${user?.fullName?.split(' ')[0] ?? ''}`}
+        caption={`${day}, ${date}`}
+        search={search}
+        onSearchChange={onSearchChange}
+      />
 
       <div className="grid grid-cols-4 gap-3.5">
         {statCards.map((card) => (
@@ -103,11 +82,6 @@ function Dashboard({ search, onSearchChange }: DashboardProps) {
           </Card>
         ))}
       </div>
-
-      <AddSubscriptionDialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-      />
     </>
   );
 }
